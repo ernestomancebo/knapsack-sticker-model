@@ -1,3 +1,6 @@
+% !BIB TS-program = biber
+% !BIB program = biber
+
 \documentclass[12pt]{beamer}
 
 \usepackage[utf8]{inputenc}
@@ -8,11 +11,16 @@
 \usepackage[backend=bibtex,style=verbose-trad2]{biblatex}
 \usepackage{amssymb}
 \usepackage{amsmath}
+\usepackage{biblatex}
+\addbibresource{citation-13218946.bib}
+\addbibresource{PMC3588402.nbib}
 
 \usetheme{Boadilla}
+\usecolortheme{beaver}
+\usefonttheme{professionalfonts}
 
 \title{Solucionando el problema de la mochila en el Modelo Sticker}
-\subtitle{paper por Mario A. Jimenez}
+\subtitle{Mario J. Pérez–Jiménez \& Fernando Sancho–Caparrini}
 \author{Ernesto Mancebo}
 \institute{Universidad de Sevilla}
 \date{Febrero 2020}
@@ -27,6 +35,7 @@
  \end{frame}
  \begin{frame}
      \section{Modelo Sticker}
+     \frametitle{Modelo Sticker}
      \begin{itemize}
          \item Modelo propuesto por Sam Roweis.
          \item Inspirado en Cadenas de ADN.
@@ -36,22 +45,27 @@
  \end{frame}
  \begin{frame}
      \subsection{Concepto de Candena de Memoria}
+     \frametitle{Concepto de Candena de Memoria}
      Las cadenas de memoria (también llamadas moléculas $\sigma$) son cadenas de forma $(n, k, m)$, tal que $n\geq k.m$, siendo $n$ la longitud de la cadena, $k$ la cantidad de sub-cadenas , y $m$ la longitud de cada sub-cadena $p$. \\ 
      Cada región $m$ tiene un estado \emph{"apagado"/"encendido"} o \emph{"0"/"1"}
  \end{frame}
  \begin{frame}
      \subsection{Concepto de Tubo}
+     \frametitle{Concepto de Tubo}
      Un Tubo ($T$) consiste en un multiconjunto de complejos de memoria o de moléculas $\sigma$ del mismo tipo. \\ Se puede ilustrar de la manera:
     $
-    \begin{bmatrix}
-        \sigma_0 \\
-        \sigma_i \\
-        \sigma_{i + 1} 
-    \end{bmatrix}
+    \left[
+        \begin{array}{l}
+            \sigma_0 \\
+            \sigma_i \\
+            \sigma_{i + 1} 
+        \end{array}
+    \right]
     $
  \end{frame}
  \begin{frame}
      \subsection{Operaciones sobre las moleculas}
+     \frametitle{Operaciones sobre las moleculas}
      \begin{itemize}
         \item \emph{mezclar}$(T_1,T_2)$
         \item \emph{separar}$(T, i)$
@@ -62,17 +76,15 @@
  \end{frame}
  \begin{frame}
      \subsection{Concepto de Librería}
+     \frametitle{Concepto de Librería}
      \begin{itemize}
          \item Complejo de memoria de forma $(k,l)$ tal que  $(1 \leq k \leq l)$.
          \item Se inicializan las primeras $k - l$ regiones \emph{"encendidas"/"apagadas"} en todas sus posibles combinaciones.
      \end{itemize}
  \end{frame}
  \begin{frame}
-    \section{Subrutinas}
-    Subrutinas
- \end{frame}
- \begin{frame}
      \subsection{Sub-Rutina Ordenado por Cardinalidad}
+     \frametitle{Sub-Rutina Ordenado por Cardinalidad}
      Partiendo de los siguientes elementos:
      \begin{itemize}
         \item $A = \{1,\cdots,p\}$
@@ -86,7 +98,7 @@
      Sea $\sigma$ una molécula  para el tubo $T_0$, la misma se codifica de forma $T_0=\{\{\sigma:|\sigma|=p \land \exists j(\chi_{D_j}=\sigma)\}\}$; tal que $\chi_{D_j}$ es la función característica en $A$, siendo $(\chi_{D_j}(i) = 1$ si $i \in D_j$ de lo contrario $\chi_{D_j} = 0$ si $i \in A - D_j)$
  \end{frame}
  \begin{frame}
-     \frametitle{Resultado}
+     \frametitle{Resultado esperado}
      \begin{itemize}
          \item Una vez concluido el paso $i$, se tendrán $i +1$ tubos, empezando en $T_0$.
          \item Se tendrá $\forall\sigma(\sigma\in T_j \rightarrow|\sigma\in\{b_1,\cdots,b_i\}|=j)$.
@@ -133,15 +145,17 @@
     \par Tras la ejecución de \emph{Cardinal\_Sort} tendremos: \\
     \begin{flushleft}
     $
-    \begin{bmatrix}
-        T_0: [[0, 0, 0, 1, 0, 0, 0]] \\
-        T_1: [[0, 0, 0, 0, 1, 0, 0], [0, 0, 1, 0, 0, 0, 1]] \\
-        T_2: [[0, 0, 1, 0, 1, 0, 0]] \\
-        T_3: [] \\
-        T_4: [] \\
-        T_5: [] \\
-        T_6: [] 
-    \end{bmatrix}
+    \left[
+        \begin{array}{l}
+            T_0: [[0, 0, 0, 1, 0, 0, 0]] \\
+            T_1: [[0, 0, 0, 0, 1, 0, 0], [0, 0, 1, 0, 0, 0, 1]] \\
+            T_2: [[0, 0, 1, 0, 1, 0, 0]] \\
+            T_3: [] \\
+            T_4: [] \\
+            T_5: [] \\
+            T_6: [] 
+        \end{array}
+    \right]
     $
     \end{flushleft}
  \end{frame}
@@ -154,7 +168,8 @@
  \end{frame}
  \begin{frame}
      \subsection{Subrutina Llenado en Paralelo}
-     El propósito de la subrutina de llenado es manipular el tubo $T_0$ las moléculas en $(\sigma(i))$ y codifiquen su valor con respecto a $f$ en el sub-conjunto $A$, ambos se definen como:
+     \frametitle{Subrutina Llenado en Paralelo}
+     El propósito de la subrutina de llenado es manipular en el tubo $T_0$ las moléculas en $(\sigma(i))$ y codifiquen su valor con respecto a $f$ en el sub-conjunto $A$, esto se define como:
    \begin{itemize}
        \item $A=\{1,\cdots,p\}$
        \item $r \in \mathbb{N}$
@@ -172,8 +187,9 @@
     \end{itemize}
  \end{frame}
  \begin{frame}
-    Para este apartado denotamos que si $B\subseteq A$, decimos que  $f(B)=\sum_{i\in B}f(i)$. Tal suma nos indica el espacio a reservar en el complejo de memoria $T_0$ para codificar $f(B)$. \\
-    Asimismo, definimos $q_f=f(A)$, tal que $A_i=\{0,\cdots,i\}$ siendo $(i\leq i\leq p)$. \\
+    \frametitle{Notaciones}
+    Denotamos que si $B\subseteq A$, decimos que  $f(B)=\sum_{i\in B}f(i)$. Tal suma nos indica el espacio a reservar en el complejo de memoria $T_0$ para codificar $f(B)$. \\
+    Asimismo, definimos $q_f=f(A)$, tal que $A_i=\{0,\cdots,i\}$ siendo $(1\leq i\leq p)$. \\
     Por último, tenemos que $r$ corresponde a la región comprendida entre $p$ y $f(B)$.\\
     Todos estos ingredientes nos dan soporte para definir el tubo $T_0$ de moléculas $\sigma$ cuyo $k\geq p+r+q_f$.
  \end{frame}
@@ -222,6 +238,7 @@
  \end{frame}
  \begin{frame}
      \section{Problema de Suma de Subconjuntos}
+     \frametitle{Problema de Suma de Subconjuntos}
      Se busca determinar si existe en $B$ un subconjunto cuyo valor equivalga a $k$.\\En ese sentido, definimos $A=\{1,\cdots,p\}, k\in\mathbb{N}, w:A\rightarrow\mathbb{N}$, siendo $w$ la función peso tal que $k\leq w(A)=q_w$.
  \end{frame}
  \begin{frame}
@@ -251,9 +268,11 @@
  \end{frame}
  \begin{frame}
     \section{Problema de la mochila acotado}
+    \frametitle{Problema de la mochila acotado}
     Es un problema considerado NP-completo, en el que se busca recolectar una serie de objetos cuyo peso sea menor que $k$ y valor mayor o igual al $k'$. En ese sentido, consideramos los valores: $A=\{1,\cdots,p\}$ un conjunto no vacío, $w:A\rightarrow\mathbb{N}$ una función que codifica el valor para un $A$, $\rho:A\rightarrow\mathbb{N}$ una función que codifica el valor para un $A$, asimismo, $k,k'\in\mathbb{N}$, tal que $k\leq w(A)=q_w$ y $k'\leq \rho(A)=q_\rho$.
  \end{frame}
  \begin{frame}
+     \frametitle{Algoritmo (I)}
     \begin{algorithmic}[1]
         \Procedure{$Bounded\_Knapsack$}{$p,w,\rho,k,k'$}
         \State {$q_w=\sum_{i=1}^{p}w(i); q_\rho=\sum_{i=1}^{p}\rho(i);$}
@@ -261,12 +280,15 @@
         \State {$T_0=Parallel\_Fill(T_0,w,p,0)$}
         \State {$T_0=Cardinal\_Sort(T_0,p+1,p+q_w)$}
         \State {$T_1=\emptyset$}
-        \For {$i=1$ to $k$}
-            \State {$T_1 = mezclar(T_1,Cardinal\_Sort(T_0,p+1,p+q_w)[i])$}
-        \EndFor
-        \State {$T_0=Parallel\_Fill(T_1,\rho,p,q_w)$}
-        \State {$Cardinal\_Sort(T_0,p+q_w+1,p+q_w,q_\rho)$}
-        \State {$T_1=\emptyset$}
+        \State{$\cdots$}
+        \EndProcedure
+    \end{algorithmic}
+ \end{frame}
+ \begin{frame}
+     \frametitle{Algoritmo (II)}
+    \begin{algorithmic}[1]
+        \Procedure{$Bounded\_Knapsack$}{$p,w,\rho,k,k'$}
+        \State{$\cdots$}
         \For {$i=k'$ to $q_\rho$}
             \State {$T_1=merge(T_1,Cardinal\_Sort(T_0,p+q_w + 1,p+q_w+q_\rho)[i])$}
         \EndFor
@@ -276,27 +298,49 @@
  \end{frame}
  \begin{frame}
      \section{Problema de la mochila no acotado}
+     \frametitle{Problema de la mochila no acotado}
+     Este se distingue de la anterior implementación en el resultado a mostrar, pues ordena los tubos de salida y elije aquel tubo cuyo valor (definido por la función $\rho(B)$) sea el máximo. \\
+     Matemáticamente sería: $\rho(B)=max\{\rho(C): C\subseteq A \land w(C)\leq k\}$.
  \end{frame}
  \begin{frame}
-     \frametitle{Algoritmo}
+     \frametitle{Algoritmo (I)}
      \begin{algorithmic}[1]
-        \Procedure{$Bounded\_Knapsack$}{$p,w,\rho,k,k'$}
-        \State {$q_w=\sum_{i=1}^{p}w(i); q_\rho=\sum_{i=1}^{p}\rho(i);$}
+        \Procedure{$Unbounded\_Knapsack$}{$p,w,\rho,k,k'$}
+        \State {$q_w=\sum_{i=1}^{p}w(i);$}
+        \State {$q_\rho=\sum_{i=1}^{p}\rho(i);$}
         \State {$T_0=$Libería$(p+q_w+q_\rho,p)$}
         \State {$T_0=Parallel\_Fill(T_0,w,p,0)$}
         \State {$T_0=Cardinal\_Sort(T_0,p+1,p+q_w)$}
         \State {$T_1=\emptyset$}
         \For {$i=1$ to $k$}
-            \State {$T_1 = mezclar(T_1,Cardinal\_Sort(T_0,p+1,p+q_w)[i])$}
+        \State {$T_1 = mezclar(T_1,Cardinal\_Sort(T_0,p+1,p+q_w)[i])$}
         \EndFor
-        \State {$T_0=Parallel\_Fill(T_1,\rho,p,q_w)$}
-        \State {$Cardinal\_Sort(T_0,p+q_w+1,p+q_w,q_\rho)$}
-        \State {$T_1=\emptyset$}
-        \For {$i=k'$ to $q_\rho$}
-            \State {$T_1=merge(T_1,Cardinal\_Sort(T_0,p+q_w + 1,p+q_w+q_\rho)[i])$}
-        \EndFor
-        \State{$leer(T_1)$}
+        \State{$\cdots$}
         \EndProcedure
     \end{algorithmic}
+ \end{frame}
+ \begin{frame}
+     \frametitle{Algoritmo (II)}
+     \begin{algorithmic}[1]
+        \Procedure{$Unbounded\_Knapsack$}{$p,w,\rho,k,k'$}
+        \State {$\cdots$}
+        \State {$T_0=Parallel\_Fill(T_1,\rho,p,q_w)$}
+        \State {$i=q_\rho;t=0$}
+        \While {$i \geq 1 \land t==0$}
+            \State {$T'=Cardinal\_Sort(T_0,p+q_w +1,p+q_w+q_\rho)[i]$}
+            \If{$T'\neq\emptyset$}
+                \State{$leer(T')$}
+                \State{$t=1$}
+            \Else
+                \State{$i=i-1$}
+            \EndIf
+        \EndWhile
+        \EndProcedure
+    \end{algorithmic}
+ \end{frame}
+ \begin{frame}
+     \section{Bibliografía}
+     \frametitle{Bibliografía}
+     \printbibliography
  \end{frame}
 \end{document}

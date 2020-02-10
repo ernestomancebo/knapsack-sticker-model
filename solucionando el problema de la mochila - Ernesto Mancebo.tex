@@ -264,6 +264,35 @@
         \end{algorithmic}
     \end{algorithm}
     \section{Problema de la Mochila No Delimitado}
+
+\begin{algorithm}
+    \caption{}
+    \label{UnboundedKnapsack}
+    \begin{algorithmic}[1]
+        \Procedure{$Unbounded\_Knapsack$}{$p,w,\rho,k,k'$}
+        \State {$q_w=\sum_{i=1}^{p}w(i);$}
+        \State {$q_\rho=\sum_{i=1}^{p}\rho(i);$}
+        \State {$T_0=$Libería$(p+q_w+q_\rho,p)$}
+        \State {$T_0=Parallel\_Fill(T_0,w,p,0)$}
+        \State {$T_0=Cardinal\_Sort(T_0,p+1,p+q_w)$}
+        \State {$T_1=\emptyset$}
+        \For {$i=1$ to $k$}
+        \State {$T_1 = mezclar(T_1,Cardinal\_Sort(T_0,p+1,p+q_w)[i])$}
+        \EndFor
+        \State {$T_0=Parallel\_Fill(T_1,\rho,p,q_w)$}
+        \State {$i=q_\rho;t=0$}
+        \While {$i \geq 1 \land t==0$}
+            \State {$T'=Cardinal\_Sort(T_0,p+q_w +1,p+q_w+q_\rho)[i]$}
+            \If{$T'\neq\emptyset$}
+                \State{$leer(T')$}
+                \State{$t=1$}
+            \Else
+                \State{$i=i-1$}
+            \EndIf
+        \EndWhile
+        \EndProcedure
+    \end{algorithmic}
+\end{algorithm}
     \section{Conclusión}
 
     \section{Bibliografía}
