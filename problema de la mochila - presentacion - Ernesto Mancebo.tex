@@ -249,4 +249,29 @@
     \\
     Para un $k=10$, una vez el $T_0$ sea procesado por $Subset\_Sum$ tendríamos como salida: $[\textcolor{red}{0, 0, 0, 1,} \textcolor{blue}{1, 1, 1, 1, 1, 1, 1, 1, 1, 1}]$
  \end{frame}
+ \begin{frame}
+    \section{Problema de la mochila acotado}
+    Es un problema considerado NP-completo, en el que se busca recolectar una serie de objetos cuyo peso sea menor que $k$ y valor mayor o igual al $k'$. En ese sentido, consideramos los valores: $A=\{1,\cdots,p\}$ un conjunto no vacío, $w:A\rightarrow\mathbb{N}$ una función que codifica el valor para un $A$, $\rho:A\rightarrow\mathbb{N}$ una función que codifica el valor para un $A$, asimismo, $k,k'\in\mathbb{N}$, tal que $k\leq w(A)=q_w$ y $k'\leq \rho(A)=q_\rho$.
+ \end{frame}
+ \begin{frame}
+    \begin{algorithmic}[1]
+        \Procedure{$Bounded\_Knapsack$}{$p,w,\rho,k,k'$}
+        \State {$q_w=\sum_{i=1}^{p}w(i); q_\rho=\sum_{i=1}^{p}\rho(i);$}
+        \State {$T_0=$Libería$(p+q_w+q_\rho,p)$}
+        \State {$T_0=Parallel\_Fill(T_0,w,p,0)$}
+        \State {$T_0=Cardinal\_Sort(T_0,p+1,p+q_w)$}
+        \State {$T_1=\emptyset$}
+        \For {$i=1$ to $k$}
+            \State {$T_1 = mezclar(T_1,Cardinal\_Sort(T_0,p+1,p+q_w)[i])$}
+        \EndFor
+        \State {$T_0=Parallel\_Fill(T_1,\rho,p,q_w)$}
+        \State {$Cardinal\_Sort(T_0,p+q_w+1,p+q_w,q_\rho)$}
+        \State {$T_1=\emptyset$}
+        \For {$i=k'$ to $q_\rho$}
+            \State {$T_1=merge(T_1,Cardinal\_Sort(T_0,p+q_w + 1,p+q_w+q_\rho)[i])$}
+        \EndFor
+        \State{$leer(T_1)$}
+        \EndProcedure
+    \end{algorithmic}
+ \end{frame}
 \end{document}
