@@ -274,4 +274,29 @@
         \EndProcedure
     \end{algorithmic}
  \end{frame}
+ \begin{frame}
+     \section{Problema de la mochila no acotado}
+ \end{frame}
+ \begin{frame}
+     \frametitle{Algoritmo}
+     \begin{algorithmic}[1]
+        \Procedure{$Bounded\_Knapsack$}{$p,w,\rho,k,k'$}
+        \State {$q_w=\sum_{i=1}^{p}w(i); q_\rho=\sum_{i=1}^{p}\rho(i);$}
+        \State {$T_0=$Libería$(p+q_w+q_\rho,p)$}
+        \State {$T_0=Parallel\_Fill(T_0,w,p,0)$}
+        \State {$T_0=Cardinal\_Sort(T_0,p+1,p+q_w)$}
+        \State {$T_1=\emptyset$}
+        \For {$i=1$ to $k$}
+            \State {$T_1 = mezclar(T_1,Cardinal\_Sort(T_0,p+1,p+q_w)[i])$}
+        \EndFor
+        \State {$T_0=Parallel\_Fill(T_1,\rho,p,q_w)$}
+        \State {$Cardinal\_Sort(T_0,p+q_w+1,p+q_w,q_\rho)$}
+        \State {$T_1=\emptyset$}
+        \For {$i=k'$ to $q_\rho$}
+            \State {$T_1=merge(T_1,Cardinal\_Sort(T_0,p+q_w + 1,p+q_w+q_\rho)[i])$}
+        \EndFor
+        \State{$leer(T_1)$}
+        \EndProcedure
+    \end{algorithmic}
+ \end{frame}
 \end{document}
