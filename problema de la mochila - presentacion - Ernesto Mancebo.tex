@@ -1,0 +1,252 @@
+\documentclass[12pt]{beamer}
+
+\usepackage[utf8]{inputenc}
+
+\usepackage{geometry}
+\usepackage{algorithm}
+\usepackage{algpseudocode}
+\usepackage[backend=bibtex,style=verbose-trad2]{biblatex}
+\usepackage{amssymb}
+\usepackage{amsmath}
+
+\usetheme{Boadilla}
+
+\title{Solucionando el problema de la mochila en el Modelo Sticker}
+\subtitle{paper por Mario A. Jimenez}
+\author{Ernesto Mancebo}
+\institute{Universidad de Sevilla}
+\date{Febrero 2020}
+
+\begin{document}
+ \begin{frame}
+    \titlepage
+ \end{frame}
+ \begin{frame}
+     \frametitle{Contenido}
+     \tableofcontents
+ \end{frame}
+ \begin{frame}
+     \section{Modelo Sticker}
+     \begin{itemize}
+         \item Modelo propuesto por Sam Roweis.
+         \item Inspirado en Cadenas de ADN.
+         \item Basado en operaciones de filtrado.
+         \item Distinguido por utilizar Memoria de Acceso Aleatorio y la manera de representar la data.
+     \end{itemize}
+ \end{frame}
+ \begin{frame}
+     \subsection{Concepto de Candena de Memoria}
+     Las cadenas de memoria (también llamadas moléculas $\sigma$) son cadenas de forma $(n, k, m)$, tal que $n\geq k.m$, siendo $n$ la longitud de la cadena, $k$ la cantidad de sub-cadenas , y $m$ la longitud de cada sub-cadena $p$. \\ 
+     Cada región $m$ tiene un estado \emph{"apagado"/"encendido"} o \emph{"0"/"1"}
+ \end{frame}
+ \begin{frame}
+     \subsection{Concepto de Tubo}
+     Un Tubo ($T$) consiste en un multiconjunto de complejos de memoria o de moléculas $\sigma$ del mismo tipo. \\ Se puede ilustrar de la manera:
+    $
+    \begin{bmatrix}
+        \sigma_0 \\
+        \sigma_i \\
+        \sigma_{i + 1} 
+    \end{bmatrix}
+    $
+ \end{frame}
+ \begin{frame}
+     \subsection{Operaciones sobre las moleculas}
+     \begin{itemize}
+        \item \emph{mezclar}$(T_1,T_2)$
+        \item \emph{separar}$(T, i)$
+        \item \emph{encender}$(T, i)$
+        \item \emph{apagar}$(T, i)$
+        \item \emph{leer}$(T)$
+     \end{itemize}
+ \end{frame}
+ \begin{frame}
+     \subsection{Concepto de Librería}
+     \begin{itemize}
+         \item Complejo de memoria de forma $(k,l)$ tal que  $(1 \leq k \leq l)$.
+         \item Se inicializan las primeras $k - l$ regiones \emph{"encendidas"/"apagadas"} en todas sus posibles combinaciones.
+     \end{itemize}
+ \end{frame}
+ \begin{frame}
+    \section{Subrutinas}
+    Subrutinas
+ \end{frame}
+ \begin{frame}
+     \subsection{Sub-Rutina Ordenado por Cardinalidad}
+     Partiendo de los siguientes elementos:
+     \begin{itemize}
+        \item $A = \{1,\cdots,p\}$
+        \item $B = \{b_1,\cdots,b_s\} \subseteq A$ 
+        \item $F = \{D_1,\cdots,D_t\} \subseteq P(A)$ 
+    \end{itemize}
+    Se busca ordenar $F$ con respecto a su cardinalidad en $B$, o en otras palabras, la cantidad de elementos que conincidan de manera $B\cap D_i$.
+ \end{frame}
+ \begin{frame}
+     \frametitle{Codificando los subconjuntos $F$}
+     Sea $\sigma$ una molécula  para el tubo $T_0$, la misma se codifica de forma $T_0=\{\{\sigma:|\sigma|=p \land \exists j(\chi_{D_j}=\sigma)\}\}$; tal que $\chi_{D_j}$ es la función característica en $A$, siendo $(\chi_{D_j}(i) = 1$ si $i \in D_j$ de lo contrario $\chi_{D_j} = 0$ si $i \in A - D_j)$
+ \end{frame}
+ \begin{frame}
+     \frametitle{Resultado}
+     \begin{itemize}
+         \item Una vez concluido el paso $i$, se tendrán $i +1$ tubos, empezando en $T_0$.
+         \item Se tendrá $\forall\sigma(\sigma\in T_j \rightarrow|\sigma\in\{b_1,\cdots,b_i\}|=j)$.
+     \end{itemize}
+ \end{frame}
+ \begin{frame}
+    \frametitle{Algoritmo}
+    \begin{algorithmic}[1]
+        \Procedure{$Cardinal\_Sort$}{$T_0,B$}
+        \For { $i=1$ to $s$ }
+        \State $(T_0, T'_0) = separar(T_0, b_i)$
+        
+        \For { $j=0$ to $i-1$ }
+        \State {$(T'_{j+1},T''_j) = separar(T_j,b_i)$}
+        \State {$T_j=mezclar(T'_j,T''_j)$}
+        \EndFor
+        \State {$T_i=T'_i$}
+        \EndFor
+        \State Return $[T_0,...,T_s]$
+        \EndProcedure
+    \end{algorithmic}
+ \end{frame}
+ \begin{frame}
+     \frametitle{Traza}
+     A fin de ilustrar el comportamiento:
+     \begin{itemize}
+        \item $A: \{0, 1, 2, 3, 4, 5, 6\}$
+        \item $B: \{1, 2, 4\}$
+        \item $F: \{[2, 6], [3], [4], [2, 4]\}$
+    \end{itemize}
+    Los elementos que cumplen $B\cap D_j$ en $F$ son: $\{[\textcolor{red}{2}, 6], [3], [\textcolor{red}{4}], [\textcolor{red}{2, 4}]\}$.
+ \end{frame}
+ \begin{frame}
+     \frametitle{$F$ codificado y procesado}
+     Codificando $F$ para llevarlo a un tubo tendremos: \\
+    $
+        \begin{bmatrix}
+            [0, 0, 1, 0, 0, 0, 1] \\
+            [0, 0, 0, 1, 0, 0, 0] \\
+            [0, 0, 0, 0, 1, 0, 0] \\
+            [0, 0, 1, 0, 1, 0, 0] \\
+        \end{bmatrix}
+    $
+    \par Tras la ejecución de \emph{Cardinal\_Sort} tendremos: \\
+    \begin{flushleft}
+    $
+    \begin{bmatrix}
+        T_0: [[0, 0, 0, 1, 0, 0, 0]] \\
+        T_1: [[0, 0, 0, 0, 1, 0, 0], [0, 0, 1, 0, 0, 0, 1]] \\
+        T_2: [[0, 0, 1, 0, 1, 0, 0]] \\
+        T_3: [] \\
+        T_4: [] \\
+        T_5: [] \\
+        T_6: [] 
+    \end{bmatrix}
+    $
+    \end{flushleft}
+ \end{frame}
+ \begin{frame}
+     \frametitle{Otras Notaciones}
+     \begin{itemize}
+        \item $Cardinal\_Sort(T_0)$ cuando $B=A$.
+        \item $Cardinal\_Sort(T_0, l, k)$ cuando $B=\{l, l+1,\cdots,k\}$.
+    \end{itemize}
+ \end{frame}
+ \begin{frame}
+     \subsection{Subrutina Llenado en Paralelo}
+     El propósito de la subrutina de llenado es manipular el tubo $T_0$ las moléculas en $(\sigma(i))$ y codifiquen su valor con respecto a $f$ en el sub-conjunto $A$, ambos se definen como:
+   \begin{itemize}
+       \item $A=\{1,\cdots,p\}$
+       \item $r \in \mathbb{N}$
+       \item $f:A\rightarrow\mathbb{N}$
+   \end{itemize} 
+ \end{frame}
+ \begin{frame}
+     \frametitle{Delimitación de Regiones}
+     Podemos considerar la idea de segmentar cada molécula $\sigma$ en $T_0$ en posibles regiones como:
+    \begin{itemize}
+        \item $(A\sigma )=\sigma (1)\cdots\sigma (p)$
+        \item $(L\sigma )=\sigma (p+1)\cdots\sigma (p+r)$
+        \item $(F\sigma)=\sigma(p+r+1)\cdots\sigma(p+r+q_f)$
+        \item $(R\sigma)=\sigma(p+r+q_f+1)\cdots$
+    \end{itemize}
+ \end{frame}
+ \begin{frame}
+    Para este apartado denotamos que si $B\subseteq A$, decimos que  $f(B)=\sum_{i\in B}f(i)$. Tal suma nos indica el espacio a reservar en el complejo de memoria $T_0$ para codificar $f(B)$. \\
+    Asimismo, definimos $q_f=f(A)$, tal que $A_i=\{0,\cdots,i\}$ siendo $(i\leq i\leq p)$. \\
+    Por último, tenemos que $r$ corresponde a la región comprendida entre $p$ y $f(B)$.\\
+    Todos estos ingredientes nos dan soporte para definir el tubo $T_0$ de moléculas $\sigma$ cuyo $k\geq p+r+q_f$.
+ \end{frame}
+ \begin{frame}
+     \frametitle{Algoritmo}
+    \begin{algorithmic}[1]
+        \Procedure{$Parallel\_Fill$}{$T_0,f,p,r$}
+        \For { $i=1$ to $p$ }
+            \State $(T^+_{i,0}, T^-_i) = separar(T_{i-1}, i)$
+            \For { $j=1$ to $f(i)$ }
+                \State {$T^+_{i,j}=encender(T^+_{i,j},p+r+f(A_{i-1})+j)$}
+            \EndFor
+            \State {$T_i=mezclar(T^+_{i,f(i)}, T^-_i)$}
+        \EndFor
+        \State Return $T_0$
+        \EndProcedure
+    \end{algorithmic}
+ \end{frame}
+ \begin{frame}
+     \frametitle{Traza}
+     A fin de ilustrar el comportamiento, estudiemos lo siguiente:
+     \begin{itemize}
+        \item $A: \{1, 2, 3, 4\}$
+        \item $B: \{2, 3, 4\}$
+        \item $T_0: \{[2], [4], [3]\}$
+     \end{itemize}
+     Para el tubo $T_0$ lo codificaríamos de la siguiente forma:
+     $
+        \begin{bmatrix}
+        [\textcolor{red}{0, 1, 0, 0,} 0, 0, 0, 0, 0, 0, 0, 0, 0, 0] \\
+        [\textcolor{red}{0, 0, 0, 1,} 0, 0, 0, 0, 0, 0, 0, 0, 0, 0] \\
+        [\textcolor{red}{0, 0, 1, 0,} 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+        \end{bmatrix}
+    $
+ \end{frame}
+ \begin{frame}
+     \frametitle{$T_0$ procesado}
+     Una vez el tubo $T_0$ sea procesado por $Parallel\_Fill$, tendremos: \\
+    $
+        \begin{bmatrix}
+            [\textcolor{red}{0, 1, 0, 0,} \textcolor{blue}{1, 1, 1,} 0, 0, 0, 0, 0, 0, 0] \\
+            [\textcolor{red}{0, 0, 0, 1,} \textcolor{blue}{1, 1, 1, 1, 1, 1, 1, 1, 1, 1}] \\
+            [\textcolor{red}{0, 0, 1, 0,} \textcolor{blue}{1, 1, 1, 1, 1, 1,} 0, 0, 0, 0]
+        \end{bmatrix}
+    $
+ \end{frame}
+ \begin{frame}
+     \section{Problema de Suma de Subconjuntos}
+     Se busca determinar si existe en $B$ un subconjunto cuyo valor equivalga a $k$.\\En ese sentido, definimos $A=\{1,\cdots,p\}, k\in\mathbb{N}, w:A\rightarrow\mathbb{N}$, siendo $w$ la función peso tal que $k\leq w(A)=q_w$.
+ \end{frame}
+ \begin{frame}
+     \frametitle{Algoritmo}
+     \begin{algorithmic}[1]
+        \Procedure{$Subset\_Sum$}{$p,w,k$}
+        \State {$q_w=\sum_{i=1}^{p}w(i)$}
+        \State {$T_0=$ Libería$(p+q_w,p)$}
+        \State {$T_1=Parallel\_Fill(T_0,w,p,0)$}
+        \State {$T_k=Cardinal\_Sort(T_1,p+1,p+q_w)[k]$}
+        \State{$leer(T_k)$}
+        \EndProcedure
+    \end{algorithmic}
+ \end{frame}
+ \begin{frame}
+     \frametitle{Traza}
+     Teniendo como ejemplo el $T_0$ anterior:
+     $
+        \begin{bmatrix}
+            [\textcolor{red}{0, 1, 0, 0,} \textcolor{blue}{1, 1, 1,} 0, 0, 0, 0, 0, 0, 0] \\
+            [\textcolor{red}{0, 0, 0, 1,} \textcolor{blue}{1, 1, 1, 1, 1, 1, 1, 1, 1, 1}] \\
+            [\textcolor{red}{0, 0, 1, 0,} \textcolor{blue}{1, 1, 1, 1, 1, 1,} 0, 0, 0, 0]
+        \end{bmatrix}
+    $
+    \\
+    Para un $k=10$, una vez el $T_0$ sea procesado por $Subset\_Sum$ tendríamos como salida: $[\textcolor{red}{0, 0, 0, 1,} \textcolor{blue}{1, 1, 1, 1, 1, 1, 1, 1, 1, 1}]$
+ \end{frame}
+\end{document}

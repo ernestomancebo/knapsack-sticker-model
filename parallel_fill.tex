@@ -1,0 +1,117 @@
+\documentclass{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage{geometry}
+\usepackage{algorithm}
+\usepackage{algpseudocode}
+
+\begin{document}
+
+	\begin{algorithm}
+		\caption{Ordena los elementos en $T_0$ con respecto a los elementos de $B$ presentes en cada $\sigma$}
+		\label{CardinalSort}
+		\begin{algorithmic}[1]
+			\Procedure{$Cardinal\_Sort$}{$T_0,B$}
+			\For { $i=1$ to $s$ }
+			\State $(T_0, T'_0) = separar(T_0, b_i)$
+			
+			\For { $j=0$ to $i-1$ }
+			\State {$(T'_{j+1},T''_j) = separar(T_j,b_i)$}
+			\State {$T_j=mezclar(T'_j,T''_j)$}
+			\EndFor
+			\State {$T_i=T'_i$}
+			\EndFor
+			\State Return $[T_0,...,T_s]$
+			\EndProcedure
+		\end{algorithmic}
+	\end{algorithm}
+
+	\begin{algorithm}
+		\caption{Llena region $R\sigma$ para cada complejo de memoria en $T_0$}
+		\label{ParallelFill}
+		\begin{algorithmic}[1]
+			\Procedure{$Parallel\_Fill$}{$T_0,f,p,r$}
+			\For { $i=1$ to $p$ }
+				\State $(T^+_{i,0}, T^-_i) = separar(T_{i-1}, i)$
+	
+				\For { $j=1$ to $f(i)$ }
+					\State {$r_i=p+r+f(A_{i-1}+j)$}
+					\State {$T^+_{i,j}=encender(T^+_{i,j},r_i)$}
+				\EndFor
+				\State {$T_i=mezclar(T^+_{i,f(i)}, T^-_i))$}
+			\EndFor
+			\State Return $T_0$
+			\EndProcedure
+		\end{algorithmic}
+	\end{algorithm}
+	
+	\begin{algorithm}
+		\caption{Retorna los complejos de memoria tal que la suma de sus $R\sigma$ sean igual a $k$}
+		\label{SubsetSum}
+		\begin{algorithmic}[1]
+			\Procedure{$Subset\_Sum$}{$p,w,k$}
+			\State {$q_w=\sum_{i=1}^{p}w(i)$}
+			\State {$T_0=$Libería$(p+q_w,p)$}
+			\State {$T_1=Parallel\_Fill(T_0,w,p,0)$}
+			\State {$T_k=Cardinal\_Sort(T_1,p+1,p+q_w)[k]$}
+			\State{$leer(T_k)$}
+			\EndProcedure
+		\end{algorithmic}
+	\end{algorithm}
+
+	\begin{algorithm}
+		\caption{}
+		\label{BoundedKnapsack}
+		\begin{algorithmic}[1]
+			\Procedure{$Bounded\_Knapsack$}{$p,w,\rho,k,k'$}
+			\State {$q_w=\sum_{i=1}^{p}w(i);$}
+			\State {$q_\rho=\sum_{i=1}^{p}\rho(i);$}
+			\State {$T_0=$Libería$(p+q_w+q_\rho,p)$}
+			\State {$T_0=Parallel\_Fill(T_0,w,p,0)$}
+			\State {$T_0=Cardinal\_Sort(T_0,p+1,p+q_w)$}
+			\State {$T_1=\emptyset$}
+			\For {$i=1$ to $k$}
+				\State {$T_1 = mezclar(T_1,Cardinal\_Sort(T_0,p+1,p+q_w)[i])$}
+			\EndFor
+			\State {$T_0=Parallel\_Fill(T_1,\rho,p,q_w)$}
+			\State {$Cardinal\_Sort(T_0,p+q_w+1,p+q_w,q_\rho)$}
+			\State {$T_1=\emptyset$}
+			\For {$i=k'$ to $q_\rho$}
+				\State {$T_1=merge(T_1,Cardinal\_Sort(T_0,p+q_w + 1,p+q_w+q_\rho)[i])$}
+			\EndFor
+			\State{$leer(T_1)$}
+			\EndProcedure
+		\end{algorithmic}
+	\end{algorithm}
+
+\begin{algorithm}
+	\caption{}
+	\label{UnboundedKnapsack}
+	\begin{algorithmic}[1]
+		\Procedure{$Unbounded\_Knapsack$}{$p,w,\rho,k,k'$}
+		\State {$q_w=\sum_{i=1}^{p}w(i);$}
+		\State {$q_\rho=\sum_{i=1}^{p}\rho(i);$}
+		\State {$T_0=$Libería$(p+q_w+q_\rho,p)$}
+		\State {$T_0=Parallel\_Fill(T_0,w,p,0)$}
+		\State {$T_0=Cardinal\_Sort(T_0,p+1,p+q_w)$}
+		\State {$T_1=\emptyset$}
+		\For {$i=1$ to $k$}
+		\State {$T_1 = mezclar(T_1,Cardinal\_Sort(T_0,p+1,p+q_w)[i])$}
+		\EndFor
+		\State {$T_0=Parallel\_Fill(T_1,\rho,p,q_w)$}
+		\State {$i=q_\rho;t=0$}
+		\While {$i \geq 1 \land t==0$}
+			\State {$T'=Cardinal\_Sort(T_0,p+q_w +1,p+q_w+q_\rho)[i]$}
+			\If{$T'\neq\emptyset$}
+				\State{$leer(T')$}
+				\State{$t=1$}
+			\Else
+				\State{$i=i-1$}
+			\EndIf
+		\EndWhile
+		\EndProcedure
+	\end{algorithmic}
+\end{algorithm}
+
+
+\end{document}

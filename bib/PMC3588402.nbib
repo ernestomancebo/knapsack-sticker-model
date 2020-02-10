@@ -1,0 +1,54 @@
+PMID- 23509451
+OWN - NLM
+STAT- PubMed-not-MEDLINE
+DCOM- 20130320
+LR  - 20181113
+IS  - 1687-8027 (Print)
+IS  - 1687-8035 (Electronic)
+IS  - 1687-8027 (Linking)
+VI  - 2013
+DP  - 2013
+TI  - Solving the 0/1 knapsack problem by a biomolecular DNA computer.
+PG  - 341419
+LID - 341419
+LID - 10.1155/2013/341419 [doi]
+AB  - Solving some mathematical problems such as NP-complete problems by conventional 
+      silicon-based computers is problematic and takes so long time. DNA computing is an 
+      alternative method of computing which uses DNA molecules for computing purposes. DNA 
+      computers have massive degrees of parallel processing capability. The massive 
+      parallel processing characteristic of DNA computers is of particular interest in 
+      solving NP-complete and hard combinatorial problems. NP-complete problems such as 
+      knapsack problem and other hard combinatorial problems can be easily solved by DNA 
+      computers in a very short period of time comparing to conventional silicon-based 
+      computers. Sticker-based DNA computing is one of the methods of DNA computing. In 
+      this paper, the sticker based DNA computing was used for solving the 0/1 knapsack 
+      problem. At first, a biomolecular solution space was constructed by using 
+      appropriate DNA memory complexes. Then, by the application of a sticker-based 
+      parallel algorithm using biological operations, knapsack problem was resolved in 
+      polynomial time.
+FAU - Taghipour, Hassan
+AU  - Taghipour H
+AD  - Department of Pathology, Tabriz University of Medical Sciences, Tabriz, Iran.
+FAU - Rezaei, Mahdi
+AU  - Rezaei M
+FAU - Esmaili, Heydar Ali
+AU  - Esmaili HA
+LA  - eng
+PT  - Journal Article
+DEP - 20130218
+TA  - Adv Bioinformatics
+JT  - Advances in bioinformatics
+JID - 101515444
+PMC - PMC3588402
+EDAT- 2013/03/20 06:00
+MHDA- 2013/03/20 06:01
+CRDT- 2013/03/20 06:00
+PHST- 2012/11/02 00:00 [received]
+PHST- 2013/01/11 00:00 [revised]
+PHST- 2013/01/11 00:00 [accepted]
+PHST- 2013/03/20 06:00 [entrez]
+PHST- 2013/03/20 06:00 [pubmed]
+PHST- 2013/03/20 06:01 [medline]
+AID - 10.1155/2013/341419 [doi]
+PST - ppublish
+SO  - Adv Bioinformatics. 2013;2013:341419. doi: 10.1155/2013/341419. Epub 2013 Feb 18.

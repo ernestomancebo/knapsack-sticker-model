@@ -1,0 +1,17 @@
+TY  - CONF
+AU  - Pérez-Jiménez, Mario J.
+AU  - Sancho-Caparrini, Fernando
+ED  - Jonoska, Nataša
+ED  - Seeman, Nadrian C.
+PY  - 2002
+DA  - 2002//
+TI  - Solving Knapsack Problems in a Sticker Based Model
+BT  - DNA Computing
+SP  - 161
+EP  - 171
+PB  - Springer Berlin Heidelberg
+CY  - Berlin, Heidelberg
+AB  - Our main goal in this paper is to give molecular solutions for two NP-complete problems, namely Subset-sum and Knapsack, in a sticker based model for DNA computations. In order to achieve this, we have used a finite set sorting subroutine together with the description of a procedure to formally verify the designed programs through the labeling of test tubes using inductive techniques.
+SN  - 978-3-540-48017-4
+ID  - 10.1007/3-540-48017-X_15
+ER  - 

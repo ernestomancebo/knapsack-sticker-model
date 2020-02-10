@@ -1,0 +1,18 @@
+TY - JOUR
+TI - Solving the 0/1 Knapsack Problem by a Biomolecular DNA Computer
+VL - 2013
+PY - 2013
+DA - 2013/02/18
+DO - 10.1155/2013/341419
+UR - https://doi.org/10.1155/2013/341419
+AB - Solving some mathematical problems such as NP-complete problems by conventional silicon-based computers is problematic and takes so long time. DNA computing is an alternative method of computing which uses DNA molecules for computing purposes. DNA computers have massive degrees of parallel processing capability. The massive parallel processing characteristic of DNA computers is of particular interest in solving NP-complete and hard combinatorial problems. NP-complete problems such as knapsack problem and other hard combinatorial problems can be easily solved by DNA computers in a very short period of time comparing to conventional silicon-based computers. Sticker-based DNA computing is one of the methods of DNA computing. In this paper, the sticker based DNA computing was used for solving the 0/1 knapsack problem. At first, a biomolecular solution space was constructed by using appropriate DNA memory complexes. Then, by the application of a sticker-based parallel algorithm using biological operations, knapsack problem was resolved in polynomial time.
+JF - Advances in Bioinformatics
+SN - 1687-8027
+PB - Hindawi Publishing Corporation
+SP - 341419
+KW - 
+A2 - Dasgupta, Bhaskar
+AU - Taghipour, Hassan
+AU - Rezaei, Mahdi
+AU - Esmaili, Heydar Ali
+ER - 
