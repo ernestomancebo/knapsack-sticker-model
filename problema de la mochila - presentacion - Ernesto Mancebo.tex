@@ -297,6 +297,11 @@
     \end{algorithmic}
  \end{frame}
  \begin{frame}
+    \subsection{Diseño}
+    \frametitle{Diseño}
+    Los recursos utilizados para este diseño son: $4+2q$ tubos y $2p+q+1+\frac{q.(q+3)}{2}$ pasos.
+ \end{frame}
+ \begin{frame}
      \section{Problema de la mochila no acotado}
      \frametitle{Problema de la mochila no acotado}
      Este se distingue de la anterior implementación en el resultado a mostrar, pues ordena los tubos de salida y elije aquel tubo cuyo valor (definido por la función $\rho(B)$) sea el máximo. \\
@@ -320,6 +325,11 @@
     \end{algorithmic}
  \end{frame}
  \begin{frame}
+    \subsection{Diseño}
+    \frametitle{Diseño}
+    Los recursos utilizados para este diseño son: $5+2 . max\{q_w,q_\rho\}$ tubos y $4p+ k-k'+\frac{q_w.(q_w+5)+q_\rho.(q_\rho+7)}{2}+1$ pasos.
+\end{frame}
+ \begin{frame}
      \frametitle{Algoritmo (II)}
      \begin{algorithmic}[1]
         \Procedure{$Unbounded\_Knapsack$}{$p,w,\rho,k,k'$}
@@ -339,8 +349,27 @@
     \end{algorithmic}
  \end{frame}
  \begin{frame}
+     \subsection{Diseño}
+     \frametitle{Diseño}
+     Los recursos utilizados para este diseño son: $5+2 . max\{q_w,q_\rho\}$ tubos y $4p+ k-k'+\frac{q_w.(q_w+5)+q_\rho.(q_\rho+9)}{2}$ pasos.
+ \end{frame}
+ \begin{frame}
+     \section{Conclusiones}
+     \frametitle{Conclusiones}
+     \begin{itemize}
+         \item Aplicaciones en ciberseguirdad.
+         \item Aplicaciones en codificación de la data.
+         \item Modelo de estructura de datos.
+     \end{itemize}
+ \end{frame}
+ \begin{frame}
      \section{Bibliografía}
      \frametitle{Bibliografía}
-     \printbibliography
+    %  \printbibliography
+    \begin{itemize}
+        \item Pérez-Jiménez, M. J., \& Sancho-Caparrini, F. (2002, 2002//). \emph{Solving Knapsack Problems in a Sticker Based Model}. Paper presented at the DNA Computing, Berlin, Heidelberg.
+        \item Dasgupta, B., Taghipour, H., Rezaei, M., Esmaili, H. (2013). \emph{Solving the 0/1 Knapsack Problem by a Biomolecular DNA Computer}, Advances in Bioinformatics.
+        \item Roweis, S., Winfree, E., Burgoyne, R., Chelyapov, N., Goodman, M., Rothemund, P., \& Adleman, L. (1998). A Sticker-Based Model for DNA Computation. \emph{Journal of computational biology : a journal of computational molecular cell biology, 5}, 615-629. doi:10.1089/cmb.1998.5.615
+    \end{itemize}
  \end{frame}
 \end{document}
