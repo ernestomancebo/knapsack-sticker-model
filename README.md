@@ -1,0 +1,1 @@
+# knapsack-sticker-model
