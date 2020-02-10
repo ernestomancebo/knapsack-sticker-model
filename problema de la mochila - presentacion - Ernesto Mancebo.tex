@@ -83,8 +83,9 @@
      \end{itemize}
  \end{frame}
  \begin{frame}
-     \subsection{Sub-Rutina Ordenado por Cardinalidad}
-     \frametitle{Sub-Rutina Ordenado por Cardinalidad}
+     \section{Subrutinas}
+     \subsection{SubRutina Ordenado por Cardinalidad}
+     \frametitle{SubRutina Ordenado por Cardinalidad}
      Partiendo de los siguientes elementos:
      \begin{itemize}
         \item $A = \{1,\cdots,p\}$
@@ -267,6 +268,11 @@
     Para un $k=10$, una vez el $T_0$ sea procesado por $Subset\_Sum$ tendríamos como salida: $[\textcolor{red}{0, 0, 0, 1,} \textcolor{blue}{1, 1, 1, 1, 1, 1, 1, 1, 1, 1}]$
  \end{frame}
  \begin{frame}
+    \subsection{Diseño}
+    \frametitle{Diseño}
+    Los recursos utilizados para este diseño son: $4+2q$ tubos y $2p+q+1+\frac{q.(q+3)}{2}$ pasos.
+ \end{frame}
+ \begin{frame}
     \section{Problema de la mochila acotado}
     \frametitle{Problema de la mochila acotado}
     Es un problema considerado NP-completo, en el que se busca recolectar una serie de objetos cuyo peso sea menor que $k$ y valor mayor o igual al $k'$. En ese sentido, consideramos los valores: $A=\{1,\cdots,p\}$ un conjunto no vacío, $w:A\rightarrow\mathbb{N}$ una función que codifica el valor para un $A$, $\rho:A\rightarrow\mathbb{N}$ una función que codifica el valor para un $A$, asimismo, $k,k'\in\mathbb{N}$, tal que $k\leq w(A)=q_w$ y $k'\leq \rho(A)=q_\rho$.
@@ -299,7 +305,7 @@
  \begin{frame}
     \subsection{Diseño}
     \frametitle{Diseño}
-    Los recursos utilizados para este diseño son: $4+2q$ tubos y $2p+q+1+\frac{q.(q+3)}{2}$ pasos.
+    Los recursos utilizados para este diseño son: $5+2 . max\{q_w,q_\rho\}$ tubos y $4p+ k-k'+\frac{q_w.(q_w+5)+q_\rho.(q_\rho+7)}{2}+1$ pasos.
  \end{frame}
  \begin{frame}
      \section{Problema de la mochila no acotado}
@@ -324,11 +330,6 @@
         \EndProcedure
     \end{algorithmic}
  \end{frame}
- \begin{frame}
-    \subsection{Diseño}
-    \frametitle{Diseño}
-    Los recursos utilizados para este diseño son: $5+2 . max\{q_w,q_\rho\}$ tubos y $4p+ k-k'+\frac{q_w.(q_w+5)+q_\rho.(q_\rho+7)}{2}+1$ pasos.
-\end{frame}
  \begin{frame}
      \frametitle{Algoritmo (II)}
      \begin{algorithmic}[1]
