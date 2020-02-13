@@ -8,9 +8,9 @@
 \usepackage{amssymb}
 \usepackage{amsmath}
 
-\setlength{\parindent}{4em}
-\setlength{\parskip}{1em}
-\bibliography{citation-13218946}
+% \setlength{\parindent}{4em}
+% \setlength{\parskip}{1em}
+\bibliography{citation-13218946.bib}
 
 \title{Solucionando el problema de la mochila en el Modelo Sticker}
 \author{Ernesto Mancebo}
@@ -29,7 +29,7 @@
 %     }
 % }
 \usepackage{tikz}
-%\usetikzlibrary{positioning}
+% \usetikzlibrary{positioning}
 
 \tikzset{
   mynode/.style={fill,circle,inner sep=2pt,outer sep=0pt}
@@ -39,9 +39,10 @@
 \begin{document}
     \maketitle
     \begin{abstract}
-        Este documento ***
+        Este documento tiene como objetivo la resolución de los problema \emph{suma de subconjuntos} y \emph{porblema de la mochila}, para éste último en sus versiones acotada y la no acotada, utilizando como apoyo para la resolución de ambos problemas las subrutinas \emph{ordenado por cardinalidad} y \emph{llenado en paralelo}.
     \end{abstract}
 
+    \newpage
     \section{Introducción}
     \begin{tikzpicture}
         \draw[olive,thick,latex-latex] (0,0) -- (7,0)
@@ -50,30 +51,31 @@
         node[pos=0.75,mynode,fill=green,text=green,label=above:\textcolor{green}{C}]{};
 
         \node at (3,0.3) {ho};
-      \end{tikzpicture}
+    \end{tikzpicture}
 
     \section{Modelo Sticker}
-    \par El Modelo Sticker es un modelo de computación inpirado en cadenas de ADN propuesto por Sam Roweis \cite{citation-13218946}, donde tal modelo se basa en procedimientos de filtrado y con memoria de acceso aleatorio. En ese mismo orden, se distingue de otros modelos computacionales por la manera en que representa la información.
+    El Modelo Sticker es un modelo de computación inpirado en cadenas de ADN propuesto por Sam Roweis \textcolor{red}{\cite{article}}, donde tal modelo se basa en procedimientos de filtrado, con memoria de acceso aleatorio y una nueva manera de codificar la información. En ese mismo orden, se distingue de otros modelos computacionales por la manera en que codifica la información.
 
     \subsection{Conceptop de Cadena de Memoria}
 
-    \par El eje central de este modelo son las cadenas de memoria, tales cadenas consisten en hebras simples de ADN configuradas de forma $(n, k, m)$, tal que $n\geq k.m$, siendo $n$ la cantidad de sub-cadenas que soportra, $k$ las sub-cadenas dentro de $n$, y $m$ la longitud de cada sub-cadena $p$. Las cadenas de memoria también se les conocen como moléculas y son representadas por sigma ($\sigma$).
-    \par En ese orden, las operaciones realizadas sobre cada hebra o complejo de memoria asocia un sticker a una región $k$, transformando la cadena en una hebra doble \emph{parcial}, tal que en cada región donde haya un sticker complementándole se dice que está \emph{encendido}, mientras que la región donde se carezca de sticker se dice está \emph{apagado}. Tal abstracción binaria también se puede expresar de modo \emph{0/1}.\\
+    El eje central de este modelo son las cadenas de memoria, tales cadenas consisten en hebras simples de ADN configuradas de forma $(n, k, m)$, tal que $n\geq k.m$, siendo $n$ la cantidad de sub-cadenas que soportra, $k$ las sub-cadenas dentro de $n$, y $m$ la longitud de cada sub-cadena $p$. Las cadenas de memoria también se les conocen como moléculas y son representadas por sigma ($\sigma$). \\
+
+    En ese orden, las operaciones realizadas sobre cada hebra o complejo de memoria asocia un sticker a una región $k$, transformando la cadena en una hebra doble \emph{parcial}, tal que en cada región donde haya un sticker complementándole se dice que está \emph{encendido}, mientras que la región donde se carezca de sticker se dice está \emph{apagado}. Tal abstracción binaria también se puede expresar de modo \emph{0/1}.\\
 
 
 
     \subsection{Codificación de la Información}
 
     \subsection{Concepto de Tubo}
-    \par Dentro de este modelo, conocemos un tubo como un multiconjunto de complejos de memorias del mismo tipo. Tal concepto se puede ilustrar del modo:
+    \par Dentro de este modelo, conocemos un tubo como un multiconjunto de complejos de memorias del mismo tipo. Tal concepto se puede representar como una matriz de complejos de memoria $\sigma$ del modo: \\
         $
-        \begin{aligned}
-            &\begin{bmatrix}
-                    & \sigma_0 \\
-                    & \sigma_i \\
-                    & \sigma_{i + 1} 
-                \end{bmatrix}
-            \end{aligned}
+        \left[
+            & \sigma_0 \\
+            & \cdots \\
+            & \sigma_i \\
+            & \sigma_{i + 1} 
+
+    \right]
         $
     \par En ese orden de ideas, las operaciones a principales dentro de este modelo son:
     \begin{itemize}
@@ -84,7 +86,7 @@
         \item \emph{leer}$(T)$: Dado un tubo $T\neq\emptyset$, lee su contenido.
     \end{itemize}
     \subsection{Concepto de Librería}
-    \par Una librería dentro de este modelo es lo conocido como complejos de memoria de modo $(k,l)$ tal que $(1 \leq k \leq l)$, teniendo $k$ sub cadenas/regiones y las primeras $k - l$ subcadenas están \emph{on} u \emph{off}, en todas sus posibles combinaciones.
+    \par Una librería dentro de este modelo es lo conocido como complejos de memoria de modo $(k,l)$ tal que, teniendo $k$ sub cadenas/regiones y las primeras $k - l$ subcadenas están \emph{on} u \emph{off}, en todas sus posibles combinaciones.
 
     \section{Sub-Rutina Ordenado por Cardinalidad}
     \par Teniendo los siguientes elementos:
@@ -104,13 +106,13 @@
         \begin{algorithmic}[1]
             \Procedure{$Cardinal\_Sort$}{$T_0,B$}
             \For { $i=1$ to $s$ }
-            \State $(T_0, T'_0) = separar(T_0, b_i)$
+            \State $(T_0, T'_0) \leftarrow separar(T_0, b_i)$
             
             \For { $j=0$ to $i-1$ }
-            \State {$(T'_{j+1},T''_j) = separar(T_j,b_i)$}
-            \State {$T_j=mezclar(T'_j,T''_j)$}
+            \State {$(T'_{j+1},T''_j) \leftarrow separar(T_j,b_i)$}
+            \State {$T_j \leftarrow mezclar(T'_j,T''_j)$}
             \EndFor
-            \State {$T_i=T'_i$}
+            \State {$T_i \leftarrow T'_i$}
             \EndFor
             \State Return $[T_0,...,T_s]$
             \EndProcedure
@@ -122,15 +124,15 @@
     \begin{itemize}
         \item $A: \{0, 1, 2, 3, 4, 5, 6\}$
         \item $B: \{1, 2, 4\}$
-        \item $F: \{[2, 6], [3], [4], [2, 4]\}$
+        \item $F: \{\{2, 6\}, \{3\}, \{4\}, \{2, 4\}\}$
     \end{itemize}
-    \par Observemos que los elementos que cumplen $B\cap D_j$ en $F$ son: $\{[\textcolor{red}{2}, 6], [3], [\textcolor{red}{4}], [\textcolor{red}{2, 4}]\}$, cuyos elementos resaltados nos sugieren en qué posición del tubo de salida tras ser evaluados por \emph{Cardinal\_Sort}. Codificando $F$ para llevarlo a un tubo tendíamos: \\
+    \par Observemos que los elementos que cumplen $B\cap D_j$ en $F$ son: $\{\{\textcolor{red}{2}, 6\}, \{3\}, \{\textcolor{red}{4}\}, \{\textcolor{red}{2, 4}\}\}$, cuyos elementos resaltados nos sugieren en qué posición del tubo de salida tras ser evaluados por \emph{Cardinal\_Sort}. Codificando $F$ para llevarlo a un tubo tendíamos: \\
     $
         \begin{bmatrix}
-            [0, 0, 1, 0, 0, 0, 1] \\
-            [0, 0, 0, 1, 0, 0, 0] \\
-            [0, 0, 0, 0, 1, 0, 0] \\
-            [0, 0, 1, 0, 1, 0, 0] \\
+            0, 0, 1, 0, 0, 0, 1 \\
+            0, 0, 0, 1, 0, 0, 0 \\
+            0, 0, 0, 0, 1, 0, 0 \\
+            0, 0, 1, 0, 1, 0, 0 \\
         \end{bmatrix}
     $
     \par Este $T_0$ codificando $F$ tras la ejecución de \emph{Cardinal\_Sort} tendremos: \\
@@ -154,23 +156,20 @@
         \item $Cardinal\_Sort(T_0, l, k)$ cuando $B=\{l, l+1,\cdots,k\}$.
     \end{itemize}
     \section{Sub-Rutina de Llenado}
-    \par Una vez pensado en el concepto de codificar en $F$ las moléculas $\sigma$ tal que $B\cap D_i$, podemos considerar la idea de segmentar cada molécula $\sigma$ en $T_0$ en las regiones:
+    \par Una vez pensado en el concepto de codificar en $F$ las moléculas $\sigma$ tal que $B\cap D_i$, podemos considerar la idea de segmentar cada molécula $\sigma$ en $T_0$ en posibles regiones como:
     \begin{itemize}
-        
-        
         \item $(A\sigma )=\sigma (1)\cdots\sigma (p)$
         \item $(L\sigma )=\sigma (p+1)\cdots\sigma (p+r)$
         \item $(F\sigma)=\sigma(p+r+1)\cdots\sigma(p+r+q_f)$
         \item $(R\sigma)=\sigma(p+r+q_f+1)\cdots$
     \end{itemize} 
-   \par El propósito de esta sub-rutina es manipular el tubo $T_0$ a fin de modificar las moléculas en $(F\sigma)$ y codifiquen su peso con respecto a $f$ en el sub-conjunto $A$, ambos recursos a definir en breve. Con relación a $(L\sigma) \& (R\sigma)$, no se utilizarán en la subrutina bajo estudio, mas nos será útil delimitar estas regiones para casos posteriores.
-   \par Los recursos a utilizar en esta subrutina tenemos:\\
+   \par El propósito de la sub-rutina de llenado es manipular para el tubo $T_0$ las moléculas en $(\sigma(i))$ y codifiquen su valor con respecto a $f$ en el sub-conjunto $A$, ambos se definen como:
    \begin{itemize}
        \item $A=\{1,\cdots,p\}$
        \item $r \in \mathbb{N}$
        \item $f:A\rightarrow\mathbb{N}$
    \end{itemize}
-   \par También se ha de tomar en cuenta que si $B\subseteq A$, denotamos $f(B)=\sum_{i\in B}f(i)$. En ese mismo orden, definimos que $q_f=f(A)$, tal que $A_i=\{1,\cdots,i\}$ siendo $(i\leq i\leq p)$, y $T_0$ un multiconjunto de forma $(n,k,m)$ de complejos de memorías $\sigma$ cuyo $k\geq p+r+q_f$.
+   \par Para este escenario denotamos que si $B\subseteq A$, decimos que  $f(B)=\sum_{i\in B}f(i)$; o en otras palabras, $f(i)$ aplicada a un subconjunto $B$, retorna la suma de todos los elementos $\sum_{0}^{i}B$, cuya suma para $\sum_{0}^{s}B$ indica el espacio a reservar en el complejo de memoria $T_0$ para codificar $B$. Por otra parte, definimos que $q_f=f(A)$, tal que $A_i=\{0,\cdots,i\}$ siendo $(i\leq i\leq p)$. En ese mismo orden, $r$ corresponde a la región comprendida entre $p$ y $f(B)$ la cual está reservada para codificar algún otro atributo dentro del complejo de memoria para la molécula $\sigma$ . Finalmente, calificamos $T_0$ un multiconjunto de forma $(n,k,m)$ de complejos de memorías $\sigma$ cuyo $k\geq p+r+q_f$.
    \subsection{Algoritmo}
     \begin{algorithm}
         \caption{Asigna valores para cada complejo de memoria $\sigma$ a partir de la región especificada en $p$ y $r$}
@@ -178,13 +177,11 @@
         \begin{algorithmic}[1]
             \Procedure{$Parallel\_Fill$}{$T_0,f,p,r$}
             \For { $i=1$ to $p$ }
-                \State $(T^+_{i,0}, T^-_i) = separar(T_{i-1}, i)$
-
+                \State $(T^+_{i,0}, T^-_i) \leftarrow separar(T_{i-1}, i)$
                 \For { $j=1$ to $f(i)$ }
-                    \State {$r_i=p+r+f(A_{i-1})+j$}
-                    \State {$T^+_{i,j}=encender(T^+_{i,j},r_i)$}
+                    \State {$T^+_{i,j} \leftarrow encender(T^+_{i,j},p+r+f(A_{i-1})+j)$}
                 \EndFor
-                \State {$T_i=mezclar(T^+_{i,f(i)}, T^-_i)$}
+                \State {$T_i \leftarrow mezclar(T^+_{i,f(i)}, T^-_i)$}
             \EndFor
             \State Return $T_0$
             \EndProcedure
@@ -192,26 +189,115 @@
     \end{algorithm}
     \par Para cada $i (1\leq i \leq p)$ se consiredan las regiones:\\ $R_i=\{p+r+f(A_{i-1})+1,\cdots,p+r+f(A_i)\}$.
    \subsection{Traza Sub-Rutina de Llenado}
-    \section{Problema de Suma de Conjuntos}
+   \par Con tal de ilustrar la sub-rutina bajo estudio, utilicemos como entrada:
+   \begin{itemize}
+       \item $A: \{1, 2, 3, 4\}$
+       \item $B: \{2, 3, 4\}$
+       \item $T_0: \{\{2\}, \{4\}, \{3\}\}$
+    \end{itemize}
+    \par Una vez codificado el tubo $T_0$, tenemos: \\
+    $
+       \begin{bmatrix}
+        \textcolor{red}{0, 1, 0, 0,} 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 \\
+        \textcolor{red}{0, 0, 0, 1,} 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 \\
+        \textcolor{red}{0, 0, 1, 0,} 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        \end{bmatrix}
+    $
+    \par Nótese que las primeras cuatro regiones resaltadas en rojo corresponden al tamaño $p$, reservado para codificar el valor de cada $B$. Una vez ilustrado el tubo $T_0$, una vez procesado por $Parallel\_Fill$, tendremos: \\
+    $
+        \begin{bmatrix}
+            \textcolor{red}{0, 1, 0, 0,} \textcolor{blue}{1, 1, 1, 0, 0, 0, 0, 0, 0, 0} \\
+            \textcolor{red}{0, 0, 0, 1,} \textcolor{blue}{1, 1, 1, 1, 1, 1, 1, 1, 1, 1} \\
+            \textcolor{red}{0, 0, 1, 0,} \textcolor{blue}{1, 1, 1, 1, 1, 1, 0, 0, 0, 0}
+        \end{bmatrix}
+    $
+    \section{Problema de Suma de Sub-Conjuntos}
+    \par El problema de la suma de sub-conjuntos busca determinar si existe en $B$ un sub-conjunto cuyo valor equivalga a $k$. En ese sentido, definimos $A=\{1,\cdots,p\}, k\in\mathbb{N}, w:A\rightarrow\mathbb{N}$, siendo $w$ la función peso tal que $k\leq w(A)=q_w$.
+    \subsubsection{Algoritmo}
+    \begin{algorithm}
+        \caption{Retorna los complejos de memoria tal que la suma de sus $R\sigma$ sean igual a $k$}
+        \label{SubsetSum}
+        \begin{algorithmic}[1]
+            \Procedure{$Subset\_Sum$}{$p,w,k$}
+            \State {$q_w \leftarrow \sum_{i=1}^{p}w(i)$}
+            \State {$T_0 \leftarrow $ Libería$(p+q_w,p)$}
+            \State {$T_1 \leftarrow Parallel\_Fill(T_0,w,p,0)$}
+            \State {$T_k \leftarrow Cardinal\_Sort(T_1,p+1,p+q_w)[k]$}
+            \State{$leer(T_k)$}
+            \EndProcedure
+        \end{algorithmic}
+    \end{algorithm}
+    \subsubsection{Traza}
+    \par Tomando como referencia el tubo $T_0$ del apartado anterior: \\
+    $
+        \begin{bmatrix}
+            \textcolor{red}{0, 1, 0, 0,} \textcolor{blue}{1, 1, 1, 0, 0, 0, 0, 0, 0, 0} \\
+            \textcolor{red}{0, 0, 0, 1,} \textcolor{blue}{1, 1, 1, 1, 1, 1, 1, 1, 1, 1} \\
+            \textcolor{red}{0, 0, 1, 0,} \textcolor{blue}{1, 1, 1, 1, 1, 1, 0, 0, 0, 0}
+        \end{bmatrix}
+    $
+    \par Para un $k=10$, una vez el $T_0$ sea procesado por $Subset\_Sum$ tendríamos como salida: $\textcolor{red}{0, 0, 0, 1,} \textcolor{blue}{1, 1, 1, 1, 1, 1, 1, 1, 1, 1}$, pues si contamos los bits en la región azul nos da un total de $10$.
     \section{Problema de la Mochila Delimitado}
+    \par El problema de la mochila es un problema considerado NP-completo, en el que se busca recolectar una serie de objetos cuyo peso sea menor que $k$ y valor mayor o igual al $k'$. En ese sentido, consideramos los valores: $A=\{1,\cdots,p\}$ un conjunto no vacío, $w:A\rightarrow\mathbb{N}$ una función que codifica el valor para un $A$, $\rho:A\rightarrow\mathbb{N}$ una función que codifica el valor para un $A$, asimismo, $k,k'\in\mathbb{N}$, tal que $k\leq w(A)=q_w$ y $k'\leq \rho(A)=q_\rho$.
+    \subsection{Algoritmo}
+    ***** definir las líneas
+    \par El algoritmo a presentar se apoya en los tres algoritmos propuestos anteriormente, donde se delimitan las regiones a utilizar, se ordenan y agrupan los complejos de memoria a modo de conseguir los que cumplan con las restricciones $w(B)\leq k$ y $\rho(B)\geq k'$ y posteriormente se mueven dichas moléculas en $T_1$.
+    \begin{algorithm}
+        \caption{}
+        \label{BoundedKnapsack}
+        \begin{algorithmic}[1]
+            \Procedure{$Bounded\_Knapsack$}{$p,w,\rho,k,k'$}
+            \State {$q_w \leftarrow \sum_{i=1}^{p}w(i); q_\rho \leftarrow \sum_{i=1}^{p}\rho(i);$}
+            \State {$T_0 \leftarrow $Libería$(p+q_w+q_\rho,p)$}
+            \State {$T_0 \leftarrow Parallel\_Fill(T_0,w,p,0)$}
+            \State {$T_0 \leftarrow Cardinal\_Sort(T_0,p+1,p+q_w)$}
+            \State {$T_1 \leftarrow \emptyset$}
+            \For {$i=1$ to $k$}
+                \State {$T_1 \leftarrow mezclar(T_1,Cardinal\_Sort(T_0,p+1,p+q_w)[i])$}
+            \EndFor
+            \State {$T_0 \leftarrow Parallel\_Fill(T_1,\rho,p,q_w)$}
+            \State {$Cardinal\_Sort(T_0,p+q_w+1,p+q_w,q_\rho)$}
+            \State {$T_1 \leftarrow \emptyset$}
+            \For {$i=k'$ to $q_\rho$}
+                \State {$T_1 \leftarrow merge(T_1,Cardinal\_Sort(T_0,p+q_w + 1,p+q_w+q_\rho)[i])$}
+            \EndFor
+            \State{$leer(T_1)$}
+            \EndProcedure
+        \end{algorithmic}
+    \end{algorithm}
     \section{Problema de la Mochila No Delimitado}
+
+\begin{algorithm}
+    \caption{}
+    \label{UnboundedKnapsack}
+    \begin{algorithmic}[1]
+        \Procedure{$Unbounded\_Knapsack$}{$p,w,\rho,k,k'$}
+        \State {$q_w \leftarrow \sum_{i=1}^{p}w(i);$}
+        \State {$q_\rho \leftarrow \sum_{i=1}^{p}\rho(i);$}
+        \State {$T_0 \leftarrow $Libería$(p+q_w+q_\rho,p)$}
+        \State {$T_0 \leftarrow Parallel\_Fill(T_0,w,p,0)$}
+        \State {$T_0 \leftarrow Cardinal\_Sort(T_0,p+1,p+q_w)$}
+        \State {$T_1 \leftarrow \emptyset$}
+        \For {$i=1$ to $k$}
+        \State {$T_1  \leftarrow  mezclar(T_1,Cardinal\_Sort(T_0,p+1,p+q_w)[i])$}
+        \EndFor
+        \State {$T_0 \leftarrow Parallel\_Fill(T_1,\rho,p,q_w)$}
+        \State {$i=q_\rho;t=0$}
+        \While {$i \geq 1 \land t==0$}
+            \State {$T' \leftarrow Cardinal\_Sort(T_0,p+q_w +1,p+q_w+q_\rho)[i]$}
+            \If{$T'\neq\emptyset$}
+                \State{$leer(T')$}
+                \State{$t=1$}
+            \Else
+                \State{$i=i-1$}
+            \EndIf
+        \EndWhile
+        \EndProcedure
+    \end{algorithmic}
+\end{algorithm}
     \section{Conclusión}
 
-    % \begin{algorithm}
-    %     \caption{Compute sum of integers in array}
-    %     \label{array-sum}
-    %     \begin{algorithmic}[1]
-    %         \Procedure{ArraySum}{$A$}
-    %         \State $sum = 0$
-    %         \For {each integer $i$ in $A$}
-    %         \State $sum = sum + i$
-    %         \EndFor
-    %         \State Return $sum$
-    %         \EndProcedure
-    %     \end{algorithmic}
-    % \end{algorithm}
-    
-    % Bibliografía
+    \section{Bibliografía}
     \newpage
     \printbibliography
 \end{document}
