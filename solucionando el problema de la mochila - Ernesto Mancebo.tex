@@ -5,13 +5,18 @@
 \usepackage{algorithm}
 \usepackage{algpseudocode}
 \usepackage[backend=bibtex,style=verbose-trad2]{biblatex}
+\usepackage{csquotes}
 \usepackage{amssymb}
 \usepackage{amsmath}
 \usepackage{multicol}
+\usepackage{graphicx}
+\usepackage{float}
 
 % \setlength{\parindent}{4em}
 \setlength{\parskip}{1em}
 \bibliography{citation-13218946.bib}
+\bibliography{PMC3588402.bib}
+\bibliography{10.1007_F3-540-48017-X_15.bib}
 
 \title{Solucionando el problema de la mochila en el Modelo Sticker}
 \author{Ernesto Mancebo}
@@ -40,7 +45,7 @@
 \begin{document}
     \maketitle
     \begin{abstract}
-        Este documento tiene como objetivo la resolución de los problema \emph{suma de subconjuntos} y \emph{porblema de la mochila}, para éste último en sus versiones acotada y la no acotada, utilizando como apoyo para la resolución de ambos problemas las subrutinas \emph{ordenado por cardinalidad} y \emph{llenado en paralelo}.
+        Este artículo es un estudio del paper \emph{Solving Knapsack Problems in a Sticker Based Model} de los profesores Mario P{\'e}rez-Jim{\'e}nez y Fernando Sancho-Caparrini\autocite{ref10.1007/3-540-48017-X_15}, el cual tiene como objetivo la resolución de los problema \emph{suma de subconjuntos} y \emph{porblema de la mochila}, para éste último en sus versiones acotada y la no acotada, utilizando como apoyo para la resolución de ambos problemas las subrutinas \emph{ordenado por cardinalidad} y \emph{llenado en paralelo}.
     \end{abstract}
 
     \newpage
@@ -55,25 +60,25 @@
     \end{tikzpicture}
 
     \section{Modelo Sticker}
-    El Modelo Sticker es un modelo de computación inpirado en cadenas de ADN propuesto por Sam Roweis \textcolor{red}{\cite{article}}, donde tal modelo se basa en procedimientos de filtrado, con memoria de acceso aleatorio y una nueva manera de codificar la información. En ese mismo orden, se distingue de otros modelos computacionales por la manera en que codifica la información.
+    El Modelo Sticker es un modelo de computación inpirado en cadenas de ADN propuesto por Sam Roweis \autocite{sticker_model}, donde tal modelo se basa en procedimientos de filtrado, con memoria de acceso aleatorio y una nueva manera de codificar la información. En ese mismo orden, se distingue de otros modelos computacionales por la manera en que codifica la información.
 
     \subsection{Concepto de Cadena de Memoria}
-    El eje central de este modelo son las cadenas de memoria, tales cadenas consisten en hebras simples de ADN del tipo $(n, k, m)$, tal que $n\geq k.m$, siendo $n$ la longitud de la cadena, $k$ las cantidad de subcadenas o regiones, y $m$ la longitud de cada subcadena.\textcolor{red}{ Las cadenas de memoria también se les conocen como moléculas y son representadas por sigma ($\sigma$)}. \par
+    El eje central de este modelo son las cadenas de memoria, tales cadenas consisten en hebras simples de ADN del tipo $(n, k, m)$, tal que $n\geq k.m$, siendo $n$ la longitud de la cadena, $k$ las cantidad de subcadenas o regiones, y $m$ la longitud de cada subcadena.
 
     En ese mismo orden de ideas, un sticker es un elemento asociado a una región en la cadena de memoria, una vez asociado se dice que la región está complementada, transformando la cadena en una hebra doble parcial. En ese sentido, se dice que en cada región donde haya un sticker complementándole, esta región está \emph{activada}, mientras que la región donde se carezca de sticker se dice está \emph{desactivada}. Tal abstracción binaria también se puede expresar de modo \emph{0/1}.
 
+    \newpage
+    \begin{figure}[h!]
+        \centering
+        \includegraphics[width=\linewidth]{sticker.png}
+        \caption{Cadenas de Memoria}
+    \end{figure}
+
+    En esta imágen se ilustra en la primera cadena de memoria que la misma tiene un sticker en la primera y tercera región, por lo que estas están \emph{activadas}, leyéndose $101000$; mientras que para la segunda cadena de memoria no existe sticker alguno asociado, por ello todas las regiones están \emph{desactivadas} $(000000)$.
+
     \subsection{Concepto de Tubo}
-    Dentro del modelo sticker un tubo es un multiconjunto de complejos de memorias del mismo tipo.
-    % Tal concepto se puede representar como una matriz de complejos de memoria del modo:
-    %     $
-    %     \left[
-    %         \begin{array}{l}
-    %             \sigma_0 \\
-    %             \sigma_i \\
-    %             \sigma_{i + 1} 
-    %         \end{array}
-    %     \right]
-    %     $ \\
+    Dentro del modelo sticker un tubo consiste en un multiconjunto de complejos de memorias del mismo tipo.
+
     Las operaciones a principales dentro de este modelo son:
     \begin{itemize}
         \item \emph{mezclar}$(T_1,T_2)$: Retorna la unión de los dos tubos devolviendo un solo tubo el cual contiene cada complejo de memoria proveniente de ambos tubos. También se nota como $(T_1\cup T_2)$.
@@ -83,11 +88,15 @@
         \item \emph{leer}$(T)$: Dado un tubo $T\neq\emptyset$, lee su contenido.
     \end{itemize}
     \subsection{Concepto de Librería}
-    Una librería dentro del modelo sticker consiste en complejos de memoria de modo $(k,l)$, teniendo $k$ sub cadenas y las primeras $l$ subcadenas están \emph{activadas} o \emph{desactivadas} en todas sus posibles combinaciones, mientras que las cadenas $k -l$ están \emph{desactivadas}.
+    Una librería dentro del modelo sticker consiste en complejos de memoria de modo $(k,l)$, teniendo $k$ sub cadenas y las primeras $l$ subcadenas están \emph{activadas} o \emph{desactivadas} en todas sus posibles combinaciones, mientras que las regiones $k -l$ restantes están \emph{desactivadas}\autocite{Taghipour2013}.
+
+    \begin{figure}[h!]
+        \centering
+        \includegraphics[]{libreria.jpg}
+        \caption{Librería$(k,l)$}
+    \end{figure}
 
     \section{Subrutina Ordenado por Cardinalidad}
-
-
     \textbf{Problema:} Sea $A = \{1,\cdots,p\}$, $B = \{b_1,\cdots,b_s\} \subseteq A$, $F = \{D_1,\cdots,D_t\} \subseteq P(A)$. Ordene los conjuntos de $F$ de acuerdo a su cardinalidad en $B$, o en otras palabras, la cantidad de elementos de $B\cap D_i$.
 
 
@@ -113,6 +122,42 @@
         \end{algorithmic}
     \end{algorithm}
 
+    \subsection{Proposiciones}
+    \subsubsection{Proposición 1}
+    $\forall{i}(1\leq{i}\leq{s}\rightarrow\forall{j}\leq{i}\forall{\sigma}(\sigma\in{T_{i,j}}\rightarrow|\sigma\cap{B_i}|=j))$.
+
+    \emph{Prueba}. Por inducción en $i$, veamos que $\forall{j}\leq{1}$ $\forall\sigma\in{T_{1,j}}(|\sigma\cap{B_i}|=j)$.
+    \begin{itemize}
+        \item Sea $\sigma\in{T_{1,0}} = +(T_{0,-1}, b_1) \cup -(T_{0,0}, b_1).$ Partiendo de que $T_{0,-1}=\emptyset$ y $T_{0,0}=T_0$, resultando que $\sigma\in{-(T_0,b_1)}$; esto es, $b_1\notin\sigma$. Por lo que $|\sigma\cap{B_1}|=0$.
+        \item Sea $\sigma\in{T_{1,1}} = +(T_{0,0}, b_1) \cup -(T_{0,1}, b_1).$ Partiendo de que $T_{0,1}=\emptyset$ y $T_{0,0}=T_0$, resultando que $\sigma\in{-T_{0,0}}=T_0$ y $b_1\in\sigma$; por lo que $|\sigma\cap{B_1}|=1$.
+    \end{itemize}
+
+    Sea $i (1\leq{i}<s)$ tal que $\forall{j}\leq{i}$ $\forall\sigma\in{T_{i,j}}(|\sigma\cap{B_i}|=j)$. Veamos que el resultado verifica que para $i+1$. Por ello, se procede por inducción en $j$: $\forall{j}\leq{i+1}$ $\forall\sigma\in{T_{i+1, j}}(|\sigma\cap{B_{i+1}}|=j)$.
+    \begin{itemize}
+        \item Sea $\sigma\in{T_{i+1, 0}}=+(T_{i, -1}, b_{i+1})\cup-(T_{i,0},b_{i+1})$. Siendo $T_{i,-1}=\emptyset$, resulta que $\sigma\in{T_{i,0}}$ y $b_{i+1}\notin\sigma$, por hipótesis de inducción deducimos que $|\sigma\cap{B_i}|=0$. Por lo que $|\sigma\cap{B_{i+1}}|=1$, partiendo de que $b_{i+1}\notin\sigma$.
+        \item Sea $j>0$ y $\sigma\in{T_{i+1,j}}=+(T_{i,j-1}, b_{i+1})\cup-(T_{i,j},b_{i,-1})$, entonces:
+        \begin{itemize}
+            \item Si $\sigma\in{T_{i,j}}$ y $b_{i+1}\in\sigma$, por hipótesis de inducción tenemos que $|\sigma\cap{B_i}|=j-1$. Partiendo de que $b_{i+1}\in\sigma$, se concluye en que $|\sigma\cap{B_{i+1}}|=j-1+1=j$.
+            \item Si $\sigma\in{T_{i,j}}$ y $b_{i,j}\in\sigma$, por hipótesis de inducción tenemos que $\sigma\cap{B_i}=j$. Tal que $b_{i+1}\notin\sigma$, tenemos que $|\sigma\cap{B_{i+1}}|=j$.
+        \end{itemize}
+    \end{itemize}
+    \subsubsection{Proposición 2}
+    $\forall\sigma\in{T_0}\forall{i}(0\leq{i}\leq{s}\rightarrow\sigma\in{T_{i,|\sigma\cap{B_i}|}})$
+
+
+    \emph{Prueba}. Por indución en $i$. Para $i=0$, el resultado toca la trivialidad. Asumimos que el resultado mantiene que para $i(0\leq{i}<s)$, lo probamo para $i+1$.
+    \begin{itemize}
+        \item Si $b_{i+1}\in\sigma$, tenemos que $|\sigma\cap{B_{i+1}}|=i + |\sigma\cap{B_i}|$. Por hipótesis de inducción, $\sigma\in{T_{i,|\sigma\cap{B_{i+1}|}}}$, entonces $\sigma\in{+(T_{i,|\sigma\cap{B_i}|,b_{i+1}})}\subseteq{T_{i+1,|\sigma\cap{B_i}|+1}}$.
+        \item Si $b_{i+1}\notin\sigma$, entonces $|\sigma\cap{B_{i+1}}|=|\sigma\cap{B_i}|$. Por hipótesis de inducciónm $\sigma\in{T_{i, |\sigma\cap{B_i}|}}$, entonces $\sigma\in{-(T_{i,|\sigma\cap{B_i}|, b_{i+1}})}$ $\subseteq{T_{i+1, |\sigma\cap{B_i}|}}=T_{i+1, |\sigma\cap{B_{i+1}}|}$.
+    \end{itemize}
+    \subsection{Corolarios}
+
+    \subsubsection{Correctitud del Algoritmo}
+    si $\forall{j}\forall\sigma(0\leq j \leq s \land \sigma\in T_{s,j} \rightarrow |\sigma\cap B| = j)$. Dicho de otra manera, $j$ debe de ser un valor entre $0$ y $s$, y para cada complejo de memoria $\sigma$ existente en $T_{s,j}$, tantas moléculas contenga para la cardinalidad $|\sigma\cap B|$,esta será igual a $j$. 
+    \subsubsection{Completitud del Algoritmo}
+    Si $\sigma\in T_0$ y $|\sigma\cap B| = j$, entonces $\sigma\in T_{s,j}$. Esto es, si existe un complejo de memoria en el tubo de entrada, y la cardinalidad de la misma en $B$ es $j$, pues el mismo complejo de memoria debe de aparecer en el tubo $j$-ésimo.
+
+
     \newpage
 
     \subsection{Traza Subrutina Ordenado por Cardinalidad}
@@ -135,22 +180,22 @@
     $ 
 
 
-Este $T_0$ codificando $F$ tras la ejecución de \emph{Cardinal\_Sort} tendremos: 
+    Este $T_0$ codificando $F$ tras la ejecución de \emph{Cardinal\_Sort} tendremos: 
 
-    $
-    \begin{array}{l}
-        T_0: [ 0 0 0 1 0 0 0 ] \\
-        T_1: \left[ \begin{array}{l} 0 0 0 0 1 0 0 \\ 0 0 1 0 0 0 1 \end{array} \right] \\
-        T_2: [0 0 1 0 1 0 0] \\
-        T_3: [] \\
-        T_4: [] \\
-        T_5: [] \\
-        T_6: [] 
-    \end{array}
-    $ 
+        $
+        \begin{array}{l}
+            T_0: [ 0 0 0 1 0 0 0 ] \\
+            T_1: \left[ \begin{array}{l} 0 0 0 0 1 0 0 \\ 0 0 1 0 0 0 1 \end{array} \right] \\
+            T_2: [0 0 1 0 1 0 0] \\
+            T_3: [] \\
+            T_4: [] \\
+            T_5: [] \\
+            T_6: [] 
+        \end{array}
+        $ 
 
 
-Cumpliendo de esta manera la condición de $\forall\sigma(\sigma\in T_j \rightarrow|\sigma\in\{b_1,\cdots,b_i\}|=j)$.
+    Cumpliendo de esta manera la condición de $\forall\sigma(\sigma\in T_j \rightarrow|\sigma\in\{b_1,\cdots,b_i\}|=j)$.
 
     \subsection{Otras Notaciones}
     Para usos posteriores dentro de este informe, podemos notar el uso de \emph{Cardinal\_Sort} de modo:
@@ -183,7 +228,6 @@ Cumpliendo de esta manera la condición de $\forall\sigma(\sigma\in T_j \rightar
         \end{equation*}
     \end{multicols}
 
-
     \subsection{Algoritmo}
     \begin{algorithm}
         \begin{algorithmic}[1]
@@ -203,23 +247,44 @@ Cumpliendo de esta manera la condición de $\forall\sigma(\sigma\in T_j \rightar
     Para cada $i (1\leq i \leq p)$ se consiredan las regiones: $R_i=\{p+r+f(A_{i-1})+1,\cdots,p+r+f(A_i)\}$.
 
 
+    \subsection{Proposiciones}
+    \subsubsection{Proposición 1}
+    Sea $B\subseteq{A}$ tal que $\sigma{B}\in{T_0}$, entonces para cada $k(1\leq{k}\leq{p})$, tenemos que:
+    \begin{equation*}
+        f(B\cap{\{1,\dots,k\}})=\sum^{p+r+f(A_k)}_{j=p+r+1}=\sigma^{k}_{B}(j)
+    \end{equation*}
+    \emph{Prueba}. Partiendo de $(1)$ sigue que
+    \begin{equation*}
+        f(B\cap{\{1,\dots,{k}\}})=\sum^{k}_{i=1}f(i).\sigma_{B}(i)=\sum^{k}_{i=1}f(i).\sigma^{k}_{B}(i)
+    \end{equation*}
+    Por otro lado, $(1)$ y $(5)$ asegura que:
+    \begin{equation*}
+        f(i).\sigma^{k}_{B}(i)=\sum_{j\in{R_{i}}}\sigma^{k}_{B}(j) (1\leq{i}\leq{k})
+    \end{equation*}
+    \subsection{Corolarios}
+    \subsubsection{Corolario 1}
+    Para cada $B\subseteq{A}$ tal que $\sigma_{B}\in{T_0}$ existe algún $\tau\in{T_{p}}$ tal que $f(B)=\sum^{p+r+q_f}_{i=p+r+1}\tau(i)$.
+
+    \emph{Prueba}. Dado un $B\subseteq{A}$, consideremos que la molécula asociada $\sigma_{B}\in{T_0}$. Ello satisface el considerar $\tau=\sigma^{p}_{B}$, partiendo de que $f(B)=f(B\cap{\{1,\cdots,p\}})=\sum^{p+r+q_f}_{j=p+r+1}\sigma^{p}_{B}(j)$. 
+
+
    \subsection{\textcolor{red}{Traza Subrutina de Llenado}}
    Con tal de ilustrar la subrutina bajo estudio, utilicemos como entrada:
    \begin{itemize}
        \item $A: \{1, 2, 3, 4\}$
        \item $B: \{2, 3, 4\}$
-       \item $T_0: \{\{2\}, \{4\}, \{3\}\}$
+       \item $T_0: \{\{1,2,3\}, \{1\}, \{2,3,4\}\}$
     \end{itemize}
     Una vez codificado el tubo $T_0$, tenemos:
 
 
-$
-    \begin{bmatrix}
-    \textcolor{red}{0 1 0 0} 0 0 0 0 0 0 0 0 0 0 \\
-    \textcolor{red}{0 0 0 1} 0 0 0 0 0 0 0 0 0 0 \\
-    \textcolor{red}{0 0 1 0} 0 0 0 0 0 0 0 0 0 0
-    \end{bmatrix}
-$
+    $
+        \begin{bmatrix}
+        \textcolor{red}{0 1 0 0} 0 0 0 0 0 0 0 0 0 0 \\
+        \textcolor{red}{0 0 0 1} 0 0 0 0 0 0 0 0 0 0 \\
+        \textcolor{red}{0 0 1 0} 0 0 0 0 0 0 0 0 0 0
+        \end{bmatrix}
+    $
 
 
 Nótese que las primeras cuatro regiones resaltadas en rojo corresponden al tamaño $p$, reservado para codificar el valor de cada $B$. Una vez ilustrado el tubo $T_0$, una vez procesado por $Parallel\_Fill$, tendremos:
@@ -349,8 +414,5 @@ $
     \end{algorithm}
 
     \section{Conclusión}
-
-    \section{Bibliografía}
-    \newpage
     \printbibliography
 \end{document}
