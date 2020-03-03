@@ -33,6 +33,9 @@
     \tableofcontents
 
     \newpage
+    \section{Introducción}
+    La presente memoria expone y desgloza el Modelo Sticker, el cual fue propuesto por Sam Roweis en 1998. Asimismo, se utiliza el mencionado modelo para el diseño y elaboración de subrutinas las cuales brindarán apoyo para la resolución de los problemas \emph{suma de subconjuntos} y \emph{porblema de la mochila}, siéndo tales problemas del tipo \emph{NP-Completo}.
+
     \section{Modelo Sticker}
     El Modelo Sticker es un modelo de computación inpirado en cadenas de ADN propuesto por Sam Roweis \autocite{sticker_model}, donde tal modelo se basa en procedimientos de filtrado, con memoria de acceso aleatorio y una nueva manera de codificar la información. En ese mismo orden, éste modelo se distingue de otros modelos computacionales por la última característica enlistada, la manera en que codifica la información.
 
@@ -372,12 +375,12 @@ Una vez odificado el tubo $T_0$, éste al ser procesado por $Parallel\_Fill$, te
     La implementación del algoritmo expuesto considera el uso de $4+2q$ tubos $T$ y un coste de $2p+q+1+\frac{q.(q+3)}{2}$ operaciones o pasos. Asimismo, el diseño de éste programa no sólo soluciona un problema de desición pues a su vez retorna todas las soluciones posibles al problema propuesto.
 
     \subsection{Teoremas}
-    \subsubsection{Theorema 1 - Robustez}
+    \subsubsection{Teorema 1 - Robustez}
     Si $T_{salida}\neq\emptyset$, entonces existe un $B\subseteq{A}$ tal que $\omega(B)=k$.
 
     \emph{Prueba}. Tomando $\tau\in{T_{salida}}$, aplicando $(3)$ y la proposición 3, obtenemos $\sigma\in{T_0}$ verificamos que el resultado para $B_\sigma$.
 
-    \subsubsection{Theorema 2 - Completitud}
+    \subsubsection{Teorema 2 - Completitud}
     Sea $\sigma\in{T_0}$ tal que $\omega(B_\sigma)=k$, entonces $T_{salida}\neq\emptyset$.
 
     \emph{Prueba}. Sea $\sigma\in{T_0}$ tal qeu $\omega(B_\sigma)=k$, partiendo del corolario 3, luego de la ejecución de la subrutina de llenado, tenemos una molécula $\tau=\sigma^{p}\in{T_1}$ tal que $\omega(B_\sigma)=\sum^{p+q_\omega}_{i=p+1}\tau(i)$, entonces $\tau\in{T_{salida}}$.
@@ -511,7 +514,7 @@ Una vez odificado el tubo $T_0$, éste al ser procesado por $Parallel\_Fill$, te
 
     \newpage
     \section{Conclusión}
-    En el trabajo presentado se expone y se detalla el \emph{Modelo Sticker}\autocite{sticker_model} propuesto por Sam Roweis, a la vez de que se plantea y diseña soluciones dentro de éste modelo para los problemas de la Suma de Subconjuntos y el problema de la Mochila, tanto para su versión Acotada y No Acotada, estos siendo problemas \emph{NP-completos}. La solución para estos problemas se logró con el apoyo de la subrutina de Llenado y la subrutina de Ordenado por Cardinalidad, donde estas subrutinas son mostradas en acompañamiento con su verificación y comprobacíon, mas una traza que ilustra el comportamiento de las mencionadas subrutinas. Asimismo, se destaca que el tiempo requerido para la ejecución de estas soluciones es cuadrático pues varía respecto a la cantidad de tubos a utilizar. 
+    En el trabajo presentado se expone y se detalla el \emph{Modelo Sticker}\autocite{sticker_model} propuesto por Sam Roweis, a la vez de que se plantea y diseña soluciones dentro de éste modelo para los problemas de la Suma de Subconjuntos y el problema de la Mochila, tanto para su versión Acotada y No Acotada, estos siendo problemas \emph{NP-Completo}. La solución para estos problemas se logró con el apoyo de la subrutina de Llenado y la subrutina de Ordenado por Cardinalidad, donde estas subrutinas son mostradas en acompañamiento con su verificación y comprobacíon, mas una traza que ilustra el comportamiento de las mencionadas subrutinas. Asimismo, se destaca que el tiempo requerido para la ejecución de estas soluciones es cuadrático pues varía respecto a la cantidad de tubos a utilizar. 
 
 
     Por otro lado, la manera en cómo la información es representada en este modelo de computación despierta la idea de utilizar tal modelo o posibles implementaciones afines con el propósito de codificar información, encriptación de la información y como una posible estructura de datos, siendo esta lista enumerativa mas no limitante para casos aplicativos.
