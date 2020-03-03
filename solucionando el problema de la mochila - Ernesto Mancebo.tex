@@ -12,7 +12,6 @@
 \usepackage{graphicx}
 \usepackage{float}
 
-% \setlength{\parindent}{4em}
 \setlength{\parskip}{1em}
 \bibliography{citation-13218946.bib}
 \bibliography{PMC3588402.bib}
@@ -22,25 +21,7 @@
 \author{Ernesto Mancebo}
 \date{Febrero 2020}
 
-% \tikzset{
-%     pics/realline/.style 2 args = {
-%         code = {
-%             \draw [thick] (0,0) -- (6,0) node [right=2mm] {$$mathbb{R}};
-%             \fill[black] (1,0) circle (1mm) node[abobe=2mm] {$#1$}
-%                          (3,0) circle (1mm) node[abobe=2mm] {$#2$}
-%                          (6,0) circle (1mm) node[abobe=2mm] {$V_4$};
-%             \foreach \i [count=\j] in {0,0.5,1,1.5,3,4.5,6}
-%                 \coordinate (-\j) at (i,0);
-%         }
-%     }
-% }
 \usepackage{tikz}
-% \usetikzlibrary{positioning}
-
-% \tikzset{
-%   mynode/.style={fill,circle,inner sep=2pt,outer sep=0pt}
-% }
-
 
 \begin{document}
     \maketitle
@@ -50,17 +31,8 @@
 
     \newpage
     \tableofcontents
+
     \newpage
-    % \section{Introducción}
-    % \begin{tikzpicture}
-    %     \draw[olive,thick,latex-latex] (0,0) -- (7,0)
-    %     node[pos=0.25,mynode,fill=red,label=above:\textcolor{red}{A}]{}
-    %     node[pos=0.5,mynode,fill=blue,text=blue,label=above:\textcolor{blue}{B}]{}
-    %     node[pos=0.75,mynode,fill=green,text=green,label=above:\textcolor{green}{C}]{};
-
-    %     \node at (3,0.3) {ho};
-    % \end{tikzpicture}
-
     \section{Modelo Sticker}
     El Modelo Sticker es un modelo de computación inpirado en cadenas de ADN propuesto por Sam Roweis \autocite{sticker_model}, donde tal modelo se basa en procedimientos de filtrado, con memoria de acceso aleatorio y una nueva manera de codificar la información. En ese mismo orden, se distingue de otros modelos computacionales por la manera en que codifica la información.
 
@@ -171,7 +143,7 @@
     \end{itemize}
     \subsection{Corolarios}
 
-    \subsubsection{Corolario 1 - Correctitud del Algoritmo}
+    \subsubsection{Corolario 1 - Robustez del Algoritmo}
     Si $\forall{j}\;\forall\sigma\;(0\leq j \leq s \land \sigma\in T_{s,j} \rightarrow |\sigma\cap B| = j)$. Dicho de otra manera, $j$ debe de ser un valor entre $0$ y $s$, y para cada complejo de memoria $\sigma$ existente en $T_{s,j}$, tantas moléculas contenga para la cardinalidad $|\sigma\cap B|$,esta será igual a $j$. 
     \subsubsection{Corolario 2 - Completitud del Algoritmo}
     Si $\sigma\in T_0$ y $|\sigma\cap B| = j$, entonces $\sigma\in T_{s,j}$. Esto es, si existe un complejo de memoria en el tubo de entrada, y la cardinalidad de la misma en $B$ es $j$, pues el mismo complejo de memoria debe de aparecer en el tubo $j$-ésimo.
@@ -216,7 +188,7 @@
 
     \newpage
     \section{Subrutina de Llenado}
-    \textbf{Problema:} Sea $A=\{1,\dots,p\}$,  $r \in \mathbb{N}$ y $f:A\rightarrow\mathbb{N}$ una función. Si $B\subseteq A$, notamos $f(B)=\sum_{i\in B}f(i)$, por conveniencia deifnimos que para $f(0)=0$. Sea $q_f=f(A)$, $A_i=\{0,\dots,i\}$ $(0\leq i\leq p)$, y $T_0$ un multiconjunto de complejos de memoria de forma $(n,k,m)$ con $k\geq p+r+q_f$.
+    Sea $A=\{1,\dots,p\}$, $r \in \mathbb{N}$ y $f:A\rightarrow\mathbb{N}$ una función. Si $B\subseteq A$, notamos $f(B)=\sum_{i\in B}f(i)$, por conveniencia deifnimos que para $f(0)=0$. Sea $q_f=f(A)$, $A_i=\{0,\dots,i\}$ $(0\leq i\leq p)$, y $T_0$ un multiconjunto de complejos de memoria de forma $(n,k,m)$ con $k\geq p+r+q_f$.
 
 
     Si $\sigma\in T_0$, podemos asumir que tal complejo de memoria está formado por las regiones:
@@ -329,7 +301,7 @@
         \item $T_0: \{\{1,2,3\}, \{1\}, \{2,3,4\}\}$
         \item $p = 4$
         \item $r = 1$
-        \item \textcolor{red}{$q_f= 20?$}
+        \item $q_f= 20$
         \end{itemize}
     \end{multicols}
 
@@ -337,9 +309,9 @@
     \begin{multicols}{2}
         \begin{itemize}
             \item $(A\sigma )=\sigma (1)\dots\sigma (4)$
-            \item \textcolor{red}{$(L\sigma )=\sigma (4+1)\dots\sigma (4+1)$}
-            \item \textcolor{red}{$(F\sigma)=\sigma(4+1+1)\dots\sigma(4+1+20)$}
-            \item \textcolor{red}{$(R\sigma)=\sigma(4+1+20+1)\dots$}
+            \item $(L\sigma )=\sigma (4+1)\dots\sigma (4+1)$
+            \item $(F\sigma)=\sigma(4+1+1)\dots\sigma(4+1+20)$
+            \item $(R\sigma)=\sigma(4+1+20+1)\dots$
         \end{itemize} 
     \end{multicols}
 
@@ -378,7 +350,7 @@ Una vez odificado el tubo $T_0$, éste al ser procesado por $Parallel\_Fill$, te
     Definido una vez el problema, el paper bajo estudio presenta un diseño de un programa dentro del modelo sticker tal que resuelve el problema de la suma de subcojnuntos. El tubo de entrada $T_0$ conteniendo una librería de forma $(p+q_\omega, q)$. 
 
 
-    La primera fase, la fase de llenado, cada molécula $\sigma$ del tubo de entrada \textcolor{red}{será llenado a fin de conseguir en los últimos componentes $q$ el peso de los subcojnuntos que codifica}. Los tubos objtenidos luego serán ordenados de acuerdo a su cardinalidad. Por último, el tubo $k$-ésimo es leído, donde tal tubo $T_k$ representa el peso buscado.
+    La primera fase, la fase de llenado, cada molécula $\sigma$ del tubo de entrada será llenado a fin de conseguir en los últimos componentes $q$ el peso de los subcojnuntos que codifica. Los tubos obtenidos luego serán ordenados de acuerdo a su cardinalidad. Por último, el tubo $k$-ésimo es leído, donde tal tubo $T_k$ representa el peso buscado.
 
 
     \subsection{Algoritmo}
@@ -399,7 +371,7 @@ Una vez odificado el tubo $T_0$, éste al ser procesado por $Parallel\_Fill$, te
     \subsection{\textcolor{red}{Diseño}}
 
     \subsection{Teoremas}
-    \subsubsection{Theorema 1 - Correctitud}
+    \subsubsection{Theorema 1 - Robustez}
     Si $T_{salida}\neq\emptyset$, entonces existe un $B\subseteq{A}$ tal que $\omega(B)=k$.
 
     \emph{Prueba}. Tomando $\tau\in{T_{salida}}$, aplicando $(3)$ y la proposición 3, obtenemos $\sigma\in{T_0}$ verificamos que el resultado para $B_\sigma$.
@@ -411,7 +383,7 @@ Una vez odificado el tubo $T_0$, éste al ser procesado por $Parallel\_Fill$, te
 
     \newpage
     \subsection{\textcolor{red}{Traza}}
-    A fin de ilustrar el comportamiento para el algoritmo bajo estudio y \textcolor{red}{tomando como referencia el tubo del apartado anterior} $T_0$ para simplicitud, tenemos:
+    A fin de ilustrar el comportamiento para el algoritmo bajo estudio y tomando como referencia el tubo del apartado anterior $T_0$ para simplicitud, tenemos:
     \begin{multicols}{2}
         \begin{itemize}
         \item $A: \{1, 2, 3, 4\}$
@@ -419,7 +391,7 @@ Una vez odificado el tubo $T_0$, éste al ser procesado por $Parallel\_Fill$, te
         \item $T_0: \{\{1,2,3\}, \{1\}, \{2,3,4\}\}$
         \item $p = 4$
         \item $r = 1$
-        \item \textcolor{red}{$q_f= 20?$}
+        \item $q_f= 20$
         \item $k =4$
         \end{itemize}
     \end{multicols}
@@ -462,16 +434,16 @@ Una vez odificado el tubo $T_0$, éste al ser procesado por $Parallel\_Fill$, te
     \textbf{Problema:} sea $A=\{1,\dots,p\}$ un conjunto finito no vacío, $\omega:A\rightarrow\mathbb{N}$ una función peso y $\rho:A\rightarrow\mathbb{N}$ una función valor. Sea $k, k'\in\mathbb{N}$ tal que $k\leq\omega(A)=q_\omega$ y $k'\leq\rho(A)=q_\rho$; determine si existe un subconjunto $B\subseteq A$ tal que $\omega(B)\leq k$ y $\rho(B)\geq k'$.
 
 
-    Esto nos lleva plantear el diseño de un programa molecular el cual resuelva el problema propuesto empezando con una librería$(p+q_\omega+q_\rho, p)$.
+    Esto nos lleva plantear el diseño de un programa molecular el cual resuelva el problema propuesto utilizando una librería$(p+q_\omega+q_\rho, p)$.
 
 
-    En la fase inicial, la fase de llenado, se procede como en el problema previo: cada complejo de memoria en el tubo inicial es llenado apropiadamente tal que codifique el \emph{peso} asociado al subconjunto, seguido de la ordenación de los mismos de acuerdo a su cardinalidad de $\omega(A\sigma)$, empezando por obtener algunos tubos $T_0,\dots,T_{q_\omega}$ tales que $\forall\sigma(\sigma\in T_j \Rightarrow |\omega(A\sigma)|=j)$.
+    En la fase inicial, la fase de llenado, se procede como en el problema previo: cada complejo de memoria en el tubo inicial es llenado apropiadamente tal que codifique el \emph{peso} asociado al subconjunto, seguido de la ordenación de los mismos de acuerdo a su cardinalidad de $\omega(A\sigma)$, empezando por obtener algunos tubos $T_0,\dots,T_{q_\omega}$ tales que $\forall\sigma\;(\sigma\in T_j \Rightarrow |\omega(A\sigma)|=j)$.
 
 
-    Con los tubos $T_0\cup\dots\cup T_k$ se lleva a cabo una segunda operación de llenado, esta con respecto a los \emph{valores}. Posteriormente, las moléculas $\sigma$ del tubo resultante son ordenadas con respecto a su cardinalidad en $\rho(A\sigma)$ , obteniendo nuevamente una serie de tubos de forma $T_0,\dots,T_{q_\omega}$, tales que $\forall\sigma(\sigma\in T_j \Rightarrow |\rho(A\sigma)| = j)$.
+    Con los tubos $T_0\cup\dots\cup T_k$ se lleva a cabo una segunda operación de llenado, esta con respecto a los \emph{valores}. Posteriormente, las moléculas $\sigma$ del tubo resultante son ordenadas con respecto a su cardinalidad en $\rho(A\sigma)$ , obteniendo nuevamente una serie de tubos de forma $T_0,\dots,T_{q_\rho}$, tales que $\forall\sigma\;(\sigma\in T_j \Rightarrow |\rho(A\sigma)| = j)$.
 
 
-    Finalmente, se obtiene la solución al problema con tubos $T_k'\cup\dots T_{q_\rho}$ y estos son leidos.
+    Finalmente, se obtiene la solución al problema con tubos $T_{k'}\cup\dots T_{q_\rho}$ y estos son leidos.
     \newpage
     \subsection{Algoritmo}
     Las directrices del apartado anterior guían a definir un programa molecular de la siguiente forma
@@ -496,16 +468,17 @@ Una vez odificado el tubo $T_0$, éste al ser procesado por $Parallel\_Fill$, te
             \EndProcedure
         \end{algorithmic}
     \end{algorithm}
+    \newpage
     \subsection{Diseño}
     \newpage
     \section{Problema de la Mochila No Acotado}
-    \textbf{Problema:} bajo las mismas condiciones del problema anterior, determinar si un subconjunto $B\subseteq A$ tal que $\rho(B) =max\{\rho(C):C\subseteq A \land\omega(C) \leq k\}$.
+    \textbf{Problema:} bajo las mismas condiciones del problema anterior, determinar si un subconjunto $B\subseteq A$ tal que $\rho(B) =max\{\rho(C):C\subseteq A\;\land\;\omega(C) \leq k\}$.
 
 
-    Una solución molecular es obtenida a partir del problema la mochila acotado, mas un cambio en la fase final donde se ordenan los tubos de salida con respecto a su valor y se elige sólamente el tubo con mayor valor.
+    Una solución molecular es obtenida a partir del problema la mochila acotado, mas un cambio en la fase final en donde se ordenan los tubos de salida con respecto a su valor y se elige sólamente el tubo con mayor valor.
 
     \subsection{Algoritmo}
-    La nueva propuesta lleva a idear un programa molecular similar al previo mas se ha de notar las variaciones en la salida del programa al retornar sólo el tubo con mayor valor.
+    La nueva propuesta lleva a considerar un programa molecular similar al previo mas se ha de notar las variaciones en la salida del programa al retornar sólo el tubo con mayor valor.
     \begin{algorithm}
         \begin{algorithmic}[1]
             \Procedure{$Unbounded\_Knapsack$}{$p,w,\rho,k,k'$}
@@ -517,20 +490,23 @@ Una vez odificado el tubo $T_0$, éste al ser procesado por $Parallel\_Fill$, te
             \State {$T_1  \leftarrow  mezclar(T_1,Cardinal\_Sort(T_0,p+1,p+q_w)[i])$}
             \EndFor
             \State {$T_0 \leftarrow Parallel\_Fill(T_1,\rho,p,q_w)$}
-            \State {$i=q_\rho;t=0$}
-            \While {$i \geq 1 \land t==0$}
+            \State {$i\leftarrow{q_\rho};t\leftarrow{0}$}
+            \While {$i \geq 1\;\land\;t==0$}
                 \State {$T' \leftarrow Cardinal\_Sort(T_0,p+q_w +1,p+q_w+q_\rho)[i]$}
                 \If{$T'\neq\emptyset$}
                     \State{$leer(T')$}
-                    \State{$t=1$}
+                    \State{$t\leftarrow{1}$}
                 \Else
-                    \State{$i=i-1$}
+                    \State{$i\leftarrow{i-1}$}
                 \EndIf
             \EndWhile
             \EndProcedure
         \end{algorithmic}
     \end{algorithm}
-
+    \newpage
+    \subsection{Diseño}
+    \newpage
     \section{Conclusión}
+    \newpage
     \printbibliography
 \end{document}
