@@ -1,14 +1,14 @@
 enunciados de los problemas 
 matrices ✅
 asignación ✅
-términos molécula ❓
-Qué es Qw y Qrho
+términos molécula ✅
+Qué es Qw y Qrho ✅
 
 Bibliografía solo al final del documento, citando entre corchetes, p.e. [1]. ✅
 Profundizaría en el modelo sticker y explicaría con ejemplos, o al menos una imagen, en qué consiste. ✅
 Los conceptos molécula, tubo y librería son demasiado abstractos como para poder definirlos en una frase y que alguien, que sea nuevo en este tema, pueda entenderlo con claridad. ✅
-En sorting by cardinality creo que te faltan bastantes cosas, entre otras, las partes de la entrada y de cómo se actualizan los tubos.
-Además, las proposiciones y corolarios deben aparecer en la memoria y, a ser posible, explicarlos con tus palabras.
-Este punto es fundamentalmente el mismo en el resto de problemas/algortimos.
+En sorting by cardinality creo que te faltan bastantes cosas, entre otras, las partes de la entrada y de cómo se actualizan los tubos. ✅
+Además, las proposiciones y corolarios deben aparecer en la memoria y, a ser posible, explicarlos con tus palabras. ✅
+Este punto es fundamentalmente el mismo en el resto de problemas/algortimos. ✅
 
 (Opcional) Implemenar un programa que simule los algoritmos mencionados. Esto no es necesario, pero puede ayudar para generar las trazas y/o explicar los algoritmos.

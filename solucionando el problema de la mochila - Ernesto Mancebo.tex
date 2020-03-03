@@ -34,12 +34,12 @@
 
     \newpage
     \section{Modelo Sticker}
-    El Modelo Sticker es un modelo de computación inpirado en cadenas de ADN propuesto por Sam Roweis \autocite{sticker_model}, donde tal modelo se basa en procedimientos de filtrado, con memoria de acceso aleatorio y una nueva manera de codificar la información. En ese mismo orden, se distingue de otros modelos computacionales por la manera en que codifica la información.
+    El Modelo Sticker es un modelo de computación inpirado en cadenas de ADN propuesto por Sam Roweis \autocite{sticker_model}, donde tal modelo se basa en procedimientos de filtrado, con memoria de acceso aleatorio y una nueva manera de codificar la información. En ese mismo orden, éste modelo se distingue de otros modelos computacionales por la última característica enlistada, la manera en que codifica la información.
 
     \subsection{Concepto de Cadena de Memoria}
     El eje central de este modelo son las cadenas de memoria, tales cadenas consisten en hebras simples de ADN del tipo $(n, k, m)$, tal que $n\geq k.m$, siendo $n$ la longitud de la cadena, $k$ las cantidad de subcadenas o regiones, y $m$ la longitud de cada subcadena.
 
-    En ese mismo orden de ideas, un sticker es un elemento asociado a una región en la cadena de memoria, una vez asociado se dice que la región está complementada, transformando la cadena en una hebra doble parcial. En ese sentido, se dice que en cada región donde haya un sticker complementándole, esta región está \emph{activada}, mientras que la región donde se carezca de sticker se dice está \emph{desactivada}. Tal abstracción binaria también se puede expresar de modo \emph{0/1}.
+    Asimismo, un sticker es un elemento asociado a una región en la cadena de memoria, una vez asociado se dice que la región está complementada, transformando la cadena en una hebra doble parcial. En ese sentido, se dice que en cada región donde haya un sticker complementándole, esta región está \emph{activada}, mientras que la región donde se carezca de sticker se dice está \emph{desactivada}. Tal abstracción binaria también se puede expresar de modo \emph{0/1}.
 
     \newpage
     \begin{figure}[h!]
@@ -77,7 +77,7 @@
     El paper bajo estudio nos sugiere el implementar un programa molecular definido con las siguientes características:
     \begin{itemize}
         \item  La entrada será un tubo $T_0$ conteniendo complejos de memoría codificando cada conjunto de la familia $\mathcal{F}$. Para esto, cada complejo de memoria en $T_0$ se representará mediante la función booleana  $T_0=\{\{\sigma:|\sigma|=p\;\land\;\exists{j}\;(\chi_{D_j}=\sigma)\}\}$; tal que $\chi_{D_j}$ es la función característica de $D_j$ en $A$, siendo $(\chi_{D_j}(i) = 1$ si $i \in D_j$ de lo contrario $\chi_{D_j}(i) = 0$ si $i \in A - D_j)$.
-        \item  El programa consistirá en un bucle principal realizando $s$ pasos, donde para el paso $i$-ésimo se tendrá $i+1$ tubos $(T_0, T_1,\dots,T_i)$, tales tubos generados verificando la condición $\forall\sigma(\sigma\in T_j \rightarrow|\sigma\cap\{b_1,\dots,b_i\}|=j)$. Los tubos se compondrán de la siguiente manera:
+        \item  El programa consistirá en un bucle principal realizando $s$ pasos, donde para el paso $i$-ésimo se tendrá $i+1$ tubos $(T_0, T_1,\dots,T_i)$, tales tubos generados verificando la condición $\forall\sigma\;(\sigma\in T_j \rightarrow|\sigma\cap\{b_1,\dots,b_i\}|=j)$. Los tubos se compondrán de la siguiente manera:
         \begin{equation*}
             \begin{cases}
                 T_0=-(T_0,b_{i+1}) \\
@@ -292,7 +292,7 @@
     \emph{Prueba}. Dado un $B\subseteq{A}$, consideremos que la molécula asociada $\sigma_{B}\in{T_0}$. Ello satisface el considerar $\tau=\sigma^{p}_{B}$, partiendo de que $f(B)=f(B\cap{\{1,\dots,p\}})=\sum^{p+r+q_f}_{j=p+r+1}\sigma^{p}_{B}(j)$. 
 
     \newpage
-    \subsection{\textcolor{red}{Traza Subrutina de Llenado}}
+    \subsection{Traza Subrutina de Llenado}
     A fin de ilustrar el comportamiento para el algoritmo bajo estudio, tenemos:
     \begin{multicols}{2}
         \begin{itemize}
@@ -367,8 +367,9 @@ Una vez odificado el tubo $T_0$, éste al ser procesado por $Parallel\_Fill$, te
         \end{algorithmic}
     \end{algorithm}
 
-    \newpage
-    \subsection{\textcolor{red}{Diseño}}
+    \subsection{Diseño}
+
+    La implementación del algoritmo expuesto considera el uso de $4+2q$ tubos $T$ y un coste de $2p+q+1+\frac{q.(q+3)}{2}$ operaciones o pasos. Asimismo, el diseño de éste programa no sólo soluciona un problema de desición pues a su vez retorna todas las soluciones posibles al problema propuesto.
 
     \subsection{Teoremas}
     \subsubsection{Theorema 1 - Robustez}
@@ -382,7 +383,7 @@ Una vez odificado el tubo $T_0$, éste al ser procesado por $Parallel\_Fill$, te
     \emph{Prueba}. Sea $\sigma\in{T_0}$ tal qeu $\omega(B_\sigma)=k$, partiendo del corolario 3, luego de la ejecución de la subrutina de llenado, tenemos una molécula $\tau=\sigma^{p}\in{T_1}$ tal que $\omega(B_\sigma)=\sum^{p+q_\omega}_{i=p+1}\tau(i)$, entonces $\tau\in{T_{salida}}$.
 
     \newpage
-    \subsection{\textcolor{red}{Traza}}
+    \subsection{Traza}
     A fin de ilustrar el comportamiento para el algoritmo bajo estudio y tomando como referencia el tubo del apartado anterior $T_0$ para simplicitud, tenemos:
     \begin{multicols}{2}
         \begin{itemize}
