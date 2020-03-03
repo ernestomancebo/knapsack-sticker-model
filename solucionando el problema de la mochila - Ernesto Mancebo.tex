@@ -189,10 +189,10 @@
 
     $
         \begin{bmatrix}
-            0 0 1 0 0 0 1 \\
-            0 0 0 1 0 0 0 \\
-            0 0 0 0 1 0 0 \\
-            0 0 1 0 1 0 0 \\
+            0\,0\,1\,0\,0\,0\,1 \\
+            0\,0\,0\,1\,0\,0\,0 \\
+            0\,0\,0\,0\,1\,0\,0 \\
+            0\,0\,1\,0\,1\,0\,0 \\
         \end{bmatrix}
     $ 
 
@@ -201,9 +201,9 @@
 
         $
         \begin{array}{l}
-            T_0: [ 0 0 0 1 0 0 0 ] \\
-            T_1: \left[ \begin{array}{l} 0 0 0 0 1 0 0 \\ 0 0 1 0 0 0 1 \end{array} \right] \\
-            T_2: [0 0 1 0 1 0 0] \\
+            T_0: [\,0\,0\,0\,1\,0\,0\,0\,] \\
+            T_1: \left[\begin{array}{l} 0\,0\,0\,0\,1\,0\,0 \\ 0\,0\,1\,0\,0\,0\,1 \end{array} \right] \\
+            T_2: [\,0\,0\,1\,0\,1\,0\,0\,] \\
             T_3: [] \\
             T_4: [] \\
             T_5: [] \\
@@ -230,7 +230,7 @@
     \end{multicols}
 
 
-    La subrutina opera sobre $T_0$ modificando sus elemento haciendo las moléculas del tubo de salida en $(F_\sigma)$ el peso con respecto a $f$ del subconjunto en $A$ codificado en $(A_\sigma)$, siendo esto:
+    La subrutina opera sobre $T_0$ modificando sus elemento haciendo las moléculas del tubo de salida en $(F_\sigma)$ el peso con respecto a $f$ del subconjunto en $A$ codificado en $(A_\sigma)$, mientras que las zonas $(R_\sigma)$ y $(L_\sigma)$ no son modificadas, expresándose todo esto de forma:
 
         \begin{equation*}
             \begin{aligned}
@@ -243,19 +243,18 @@
         \begin{algorithmic}[1]
             \Procedure{$Parallel\_Fill$}{$T_0,f,p,r$}
             \For { $i=1$ to $p$ }
-                \State $(T^+_{i,0}, T^-_i) \leftarrow separar(T_{i-1}, i)$
+                \State $(T^+, T^-) \leftarrow separar(T_{0}, i)$
                 \For { $j=1$ to $f(i)$ }
-                    \State {$T^+_{i,j} \leftarrow encender(T^+_{i,j},p+r+f(A_{i-1})+j)$}
+                    \State {$T^+ \leftarrow encender(T^+,p+r+f(A_{i-1})+j)$}
                 \EndFor
-                \State {$T_i \leftarrow mezclar(T^+_{i,f(i)}, T^-_i)$}
+                \State {$T_0 \leftarrow mezclar(T^+, T^-)$}
             \EndFor
             \State \textbf{return} $T_0$
             \EndProcedure
         \end{algorithmic}
     \end{algorithm}
 
-    Para cada $i (1\leq i \leq p)$ se consiredan las regiones: $R_i=\{p+r+f(A_{i-1})+1,\dots,p+r+f(A_i)\}$.
-
+    Para cada $i\;(1\leq i \leq p)$ se consiredan las regiones: $R_i=\{p+r+f(A_{i-1})+1,\dots,p+r+f(A_i)\}$.
 
     \subsection{Lemas}
     \subsubsection{Lema 1}
@@ -298,19 +297,21 @@
         \end{equation}
     \end{enumerate}
 
+    Lo resultante para estos lemas nos aseguran que el bucle principal modifique exclusivamente la región $R_i$ en una molécula, codificando de esta manera el peso para cada una de estas.
+
     \subsection{Proposiciones}
     \subsubsection{Proposición 3}
-    Sea $B\subseteq{A}$ tal que $\sigma{B}\in{T_0}$, entonces para cada $k(1\leq{k}\leq{p})$, tenemos que:
+    Sea $B\subseteq{A}$ tal que $\sigma_{B}\in{T_0}$, entonces para cada $k\;(1\leq{k}\leq{p})$, tenemos que:
     \begin{equation*}
         f(B\cap{\{1,\dots,k\}})=\sum^{p+r+f(A_k)}_{j=p+r+1}=\sigma^{k}_{B}(j)
     \end{equation*}
-    \emph{Prueba}. Partiendo de $(1)$ sigue que
+    \emph{Prueba}. Partiendo de $(1)$ se tiene que
     \begin{equation*}
         f(B\cap{\{1,\dots,{k}\}})=\sum^{k}_{i=1}f(i).\sigma_{B}(i)=\sum^{k}_{i=1}f(i).\sigma^{k}_{B}(i)
     \end{equation*}
     Por otro lado, $(1)$ y $(5)$ asegura que:
     \begin{equation*}
-        f(i).\sigma^{k}_{B}(i)=\sum_{j\in{R_{i}}}\sigma^{k}_{B}(j) (1\leq{i}\leq{k})
+        f(i).\sigma^{k}_{B}(i)=\sum_{j\in{R_{i}}}\sigma^{k}_{B}(j)\;(1\leq{i}\leq{k})
     \end{equation*}
     \subsection{Corolarios}
     \subsubsection{Corolario 3}
@@ -320,46 +321,64 @@
 
     \newpage
     \subsection{\textcolor{red}{Traza Subrutina de Llenado}}
-    Con tal de ilustrar la subrutina bajo estudio, utilicemos como entrada:
-    \begin{itemize}
+    A fin de ilustrar el comportamiento para el algoritmo bajo estudio, tenemos:
+    \begin{multicols}{2}
+        \begin{itemize}
         \item $A: \{1, 2, 3, 4\}$
-        \item $B: \{2, 3, 4\}$
+        \item $B: \{1, 2, 4\}$
         \item $T_0: \{\{1,2,3\}, \{1\}, \{2,3,4\}\}$
+        \item $p = 4$
+        \item $r = 1$
+        \item \textcolor{red}{$q_f= 20?$}
         \end{itemize}
-        Una vez codificado el tubo $T_0$, tenemos:
+    \end{multicols}
+
+    Definido lo previo, tendremos las siguientes zonas delimitadas de la siguiente manera:
+    \begin{multicols}{2}
+        \begin{itemize}
+            \item $(A\sigma )=\sigma (1)\dots\sigma (4)$
+            \item \textcolor{red}{$(L\sigma )=\sigma (4+1)\dots\sigma (4+1)$}
+            \item \textcolor{red}{$(F\sigma)=\sigma(4+1+1)\dots\sigma(4+1+20)$}
+            \item \textcolor{red}{$(R\sigma)=\sigma(4+1+20+1)\dots$}
+        \end{itemize} 
+    \end{multicols}
+
+    Para el tubo $T_0$ los valores que cumplen $B\cap{A}$ le resaltamos en rojo, teniendo $T_0: \{\{\textcolor{red}{1, 2}, 3\}, \{\textcolor{red}{1}\}, \{\textcolor{red}{2},3,\textcolor{red}{4}\}\}$, donde al codificar este con las delimitaciones previas, tenemos:
 
 
         $
             \begin{bmatrix}
-            \textcolor{red}{0 1 0 0} 0 0 0 0 0 0 0 0 0 0 \\
-            \textcolor{red}{0 0 0 1} 0 0 0 0 0 0 0 0 0 0 \\
-            \textcolor{red}{0 0 1 0} 0 0 0 0 0 0 0 0 0 0
+                \textcolor{red}{1\,1\,1\,0}\textcolor{teal}{\,0}\,0\,0\,0\,0\,0\,0\,0\,0\,0\,0\,0\,0\,0\,0\,0\,0\,0\,0\,0\,0\\
+                \textcolor{red}{1\,0\,0\,0}\textcolor{teal}{\,0}\,0\,0\,0\,0\,0\,0\,0\,0\,0\,0\,0\,0\,0\,0\,0\,0\,0\,0\,0\,0 \\
+                \textcolor{red}{0\,1\,1\,1}\textcolor{teal}{\,0}\,0\,0\,0\,0\,0\,0\,0\,0\,0\,0\,0\,0\,0\,0\,0\,0\,0\,0\,0\,0
             \end{bmatrix}
         $
 
 
-Nótese que las primeras cuatro regiones resaltadas en rojo corresponden al tamaño $p$, reservado para codificar el valor de cada $B$. Una vez ilustrado el tubo $T_0$, una vez procesado por $Parallel\_Fill$, tendremos:
+Nótese que que la región $(A_\sigma)$ y $(L_\sigma)$ se han resaltado para su apreciación, mientras que lo restante se reserva para la región $(F_\sigma)$.
 
 
-$
-    \begin{bmatrix}
-        \textcolor{red}{0, 1, 0, 0,} \textcolor{blue}{1, 1, 1, 0, 0, 0, 0, 0, 0, 0} \\
-        \textcolor{red}{0, 0, 0, 1,} \textcolor{blue}{1, 1, 1, 1, 1, 1, 1, 1, 1, 1} \\
-        \textcolor{red}{0, 0, 1, 0,} \textcolor{blue}{1, 1, 1, 1, 1, 1, 0, 0, 0, 0}
-    \end{bmatrix}
-$
+Una vez odificado el tubo $T_0$, éste al ser procesado por $Parallel\_Fill$, tendremos como salida un tubo de la siguiente manera:
 
 
+    $
+        \begin{bmatrix}
+            \textcolor{red}{1\,1\,1\,0}\textcolor{teal}{\,0}\,1\,1\,1\,1\,0\,0\,0\,0\,0\,0\,0\,0\,0\,0\,0\,0\,0\,0\,0\,0\\
+            \textcolor{red}{1\,0\,0\,0}\textcolor{teal}{\,0}\,1\,0\,0\,0\,0\,0\,0\,0\,0\,0\,0\,0\,0\,0\,0\,0\,0\,0\,0\,0 \\
+            \textcolor{red}{0\,1\,1\,1}\textcolor{teal}{\,0}\,1\,1\,1\,1\,1\,1\,1\,1\,1\,1\,1\,1\,1\,0\,0\,0\,0\,0\,0\,0
+        \end{bmatrix}
+    $
+
+
+    \newpage
     \section{Problema de Suma de Subconjuntos}
     \textbf{Problema:} Sea $A=\{1,\dots,p\}$ y $\omega\rightarrow\mathbb{N}$ una función peso. Sea $k\in\mathbb{N}$, tal que $k\leq\omega(A)=q_\omega$, determinar si existe un subconjunto $B\subseteq A$, tal que la suma de los pesos en $B$ sea exactamente $k$.
 
 
-    Definido una vez el problema, el paper bajo estudio presenta un diseño de un programa dentro del modelo sticker tal que resuelve el problema de la suma de subcojnuntos. El tubo de entrada $T_0$ conteniendo una librería de forma $p+q_\omega, q$. 
+    Definido una vez el problema, el paper bajo estudio presenta un diseño de un programa dentro del modelo sticker tal que resuelve el problema de la suma de subcojnuntos. El tubo de entrada $T_0$ conteniendo una librería de forma $(p+q_\omega, q)$. 
 
 
-    La primera fase, la fase de llenado, cada molécula $\sigma$ del tubo de entrada \textcolor{red}{será llenado a fin de conseguir en los últimos componentes $q$ el peso de los subcojnuntos que codifica}.Los tubos objtenidos luego serán ordenados de acuerdo a su cardinalidad. Por último, el tubo $k$-ésimo es leído.
-
-    El tubo obtenido del proceso descrito codifica los subconjuntos de $A$ para el peso $k$, en caso de existir.
+    La primera fase, la fase de llenado, cada molécula $\sigma$ del tubo de entrada \textcolor{red}{será llenado a fin de conseguir en los últimos componentes $q$ el peso de los subcojnuntos que codifica}. Los tubos objtenidos luego serán ordenados de acuerdo a su cardinalidad. Por último, el tubo $k$-ésimo es leído, donde tal tubo $T_k$ representa el peso buscado.
 
 
     \subsection{Algoritmo}
@@ -375,22 +394,9 @@ $
             \EndProcedure
         \end{algorithmic}
     \end{algorithm}
-    \subsection{\textcolor{red}{Traza}}
-    Tomando como referencia el tubo $T_0$ del apartado anterior:
 
-
-    $
-        \begin{bmatrix}
-            \textcolor{red}{0\,1\,0\,0,} \textcolor{blue}{1\,1\,1\,0\,0\,0\,0\,0\,0\,0} \\
-            \textcolor{red}{0\,0\,0\,1,} \textcolor{blue}{1\,1\,1\,1\,1\,1\,1\,1\,1\,1} \\
-            \textcolor{red}{0\,0\,1\,0,} \textcolor{blue}{1\,1\,1\,1\,1\,1\,0\,0\,0\,0}
-        \end{bmatrix}
-    $
-
-
-    Para un $k=10$, una vez el $T_0$ sea procesado por $Subset\_Sum$ tendríamos como salida: $\textcolor{red}{0\,0\,0\,1\,} \textcolor{blue}{1\,1\,1\,1\,1\,1\,1\,1\,1\,1}$, pues si contamos los bits en la región azul nos da un total de $10$.
-
-    \subsection{textcolor{red}{Diseño}}
+    \newpage
+    \subsection{\textcolor{red}{Diseño}}
 
     \subsection{Teoremas}
     \subsubsection{Theorema 1 - Correctitud}
@@ -403,6 +409,55 @@ $
 
     \emph{Prueba}. Sea $\sigma\in{T_0}$ tal qeu $\omega(B_\sigma)=k$, partiendo del corolario 3, luego de la ejecución de la subrutina de llenado, tenemos una molécula $\tau=\sigma^{p}\in{T_1}$ tal que $\omega(B_\sigma)=\sum^{p+q_\omega}_{i=p+1}\tau(i)$, entonces $\tau\in{T_{salida}}$.
 
+    \newpage
+    \subsection{\textcolor{red}{Traza}}
+    A fin de ilustrar el comportamiento para el algoritmo bajo estudio y \textcolor{red}{tomando como referencia el tubo del apartado anterior} $T_0$ para simplicitud, tenemos:
+    \begin{multicols}{2}
+        \begin{itemize}
+        \item $A: \{1, 2, 3, 4\}$
+        \item $B: \{1, 2, 4\}$
+        \item $T_0: \{\{1,2,3\}, \{1\}, \{2,3,4\}\}$
+        \item $p = 4$
+        \item $r = 1$
+        \item \textcolor{red}{$q_f= 20?$}
+        \item $k =4$
+        \end{itemize}
+    \end{multicols}
+
+
+    Una vez definido el tubo $T_0$, y éste procesado por $Parallel\_Fill$, tendríamos como salida el tubo $T_1$ codificado de la siguiente manera:
+
+    $
+        \begin{bmatrix}
+            \textcolor{red}{1\,1\,1\,0}\textcolor{teal}{\,0}\,1\,1\,1\,1\,0\,0\,0\,0\,0\,0\,0\,0\,0\,0\,0\,0\,0\,0\,0\,0\\
+            \textcolor{red}{1\,0\,0\,0}\textcolor{teal}{\,0}\,1\,0\,0\,0\,0\,0\,0\,0\,0\,0\,0\,0\,0\,0\,0\,0\,0\,0\,0\,0 \\
+            \textcolor{red}{0\,1\,1\,1}\textcolor{teal}{\,0}\,1\,1\,1\,1\,1\,1\,1\,1\,1\,1\,1\,1\,1\,0\,0\,0\,0\,0\,0\,0
+        \end{bmatrix}
+    $
+
+
+    Este tubo $T_1$, una vez ordenado por $Cardinal\_Sort$ resultaría de la siguiente manera:
+
+    $
+    \begin{array}{l}
+        T_0: [\;] \\
+        T_1: [\;\textcolor{red}{1\,0\,0\,0}\textcolor{teal}{\,0}\,1\,0\,0\,0\,0\,0\,0\,0\,0\,0\,0\,0\,0\,0\,0\,0\,0\,0\,0\,0\;] \\
+        T_2: [\;] \\
+        T_3: [\;] \\
+        T_4: [\;\textcolor{red}{1\,1\,1\,0}\textcolor{teal}{\,0}\,1\,1\,1\,1\,0\,0\,0\,0\,0\,0\,0\,0\,0\,0\,0\,0\,0\,0\,0\,0\;] \\
+        T_5: [\;] \\
+        T_6: [\;] \\
+        \dots \\
+        T_{13}: [\;\textcolor{red}{0\,1\,1\,1}\textcolor{teal}{\,0}\,1\,1\,1\,1\,1\,1\,1\,1\,1\,1\,1\,1\,1\,0\,0\,0\,0\,0\,0\,0\;] \\
+        \dots
+    \end{array}
+    $ 
+
+
+    Finalmente, para un $k=4$, el tubo a buscar es el $T_4$, por lo que tendríamos como salida: $\textcolor{red}{1\,1\,1\,0}\textcolor{teal}{\,0}\,1\,1\,1\,1\,0\,0\,0\,0\,0\,0\,0\,0\,0\,0\,0\,0\,0\,0\,0\,0$; de modo que éste resultado da cumpliento  con los teoremas 1 y 2.
+
+
+    \newpage
     \section{Problema de la Mochila Acotado}
     \textbf{Problema:} sea $A=\{1,\dots,p\}$ un conjunto finito no vacío, $\omega:A\rightarrow\mathbb{N}$ una función peso y $\rho:A\rightarrow\mathbb{N}$ una función valor. Sea $k, k'\in\mathbb{N}$ tal que $k\leq\omega(A)=q_\omega$ y $k'\leq\rho(A)=q_\rho$; determine si existe un subconjunto $B\subseteq A$ tal que $\omega(B)\leq k$ y $\rho(B)\geq k'$.
 
