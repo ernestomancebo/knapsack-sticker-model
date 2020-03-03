@@ -469,8 +469,10 @@ Una vez odificado el tubo $T_0$, éste al ser procesado por $Parallel\_Fill$, te
             \EndProcedure
         \end{algorithmic}
     \end{algorithm}
-    \newpage
     \subsection{Diseño}
+
+    Esta implementación imprime como resultado un tubo conteniendo aquellos complejos de memoria los cuales cumplan con la condición de que $\omega(B)\leq{k}$ y que $\rho(B)\geq{k'}$. Por otra parte, este algoritmo utiliza $5 + 2 . \max{\{q_\omega, q_\rho\}}$ tubos, incluyendo los de subrutinas, y la cantidad de operaciones moleculares que cumple en su ejecución son $4p+k-k'+\frac{q_\omega.(q_\omega+5)+q_\rho.(q_\rho+7)}{2}+1$.
+
     \newpage
     \section{Problema de la Mochila No Acotado}
     \textbf{Problema:} bajo las mismas condiciones del problema anterior, determinar si un subconjunto $B\subseteq A$ tal que $\rho(B) =max\{\rho(C):C\subseteq A\;\land\;\omega(C) \leq k\}$.
@@ -504,10 +506,16 @@ Una vez odificado el tubo $T_0$, éste al ser procesado por $Parallel\_Fill$, te
             \EndProcedure
         \end{algorithmic}
     \end{algorithm}
-    \newpage
     \subsection{Diseño}
+    Este programa molecular utiliza la cantidad de $5+2.\max{\{q_\omega,q_\rho\}}$ tubos, y realiza una cantidad de $4p+k-k'+\frac{q_\omega.(q_\omega+5)+q_\rho.(q_\rho+9)}{2}$ operaciones; se ha de restaltar que el resultado de este programa, a diferencia de la versión acotada, es aquel tubo no vacío el cual contiene aquellos complejos de memoria que codifican el máximo valor posible cumpliendo la restrinción de peso, expresándose esto de forma: $\rho(B) = max\{\rho(C):C\subseteq A\;\land\;\omega(C) \leq k\}$.
+
     \newpage
     \section{Conclusión}
+    En el trabajo presentado se expone y se detalla el \emph{Modelo Sticker}\autocite{sticker_model} propuesto por Sam Roweis, a la vez de que se plantea y diseña soluciones dentro de éste modelo para los problemas de la Suma de Subconjuntos y el problema de la Mochila, tanto para su versión Acotada y No Acotada, estos siendo problemas \emph{NP-completos}. La solución para estos problemas se logró con el apoyo de la subrutina de Llenado y la subrutina de Ordenado por Cardinalidad, donde estas subrutinas son mostradas en acompañamiento con su verificación y comprobacíon, mas una traza que ilustra el comportamiento de las mencionadas subrutinas. Asimismo, se destaca que el tiempo requerido para la ejecución de estas soluciones es cuadrático pues varía respecto a la cantidad de tubos a utilizar. 
+
+
+    Por otro lado, la manera en cómo la información es representada en este modelo de computación despierta la idea de utilizar tal modelo o posibles implementaciones afines con el propósito de codificar información, encriptación de la información y como una posible estructura de datos, siendo esta lista enumerativa mas no limitante para casos aplicativos.
+
     \newpage
     \printbibliography
 \end{document}
