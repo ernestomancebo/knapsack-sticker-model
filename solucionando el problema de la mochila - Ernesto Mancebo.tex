@@ -11,6 +11,10 @@
 \usepackage{multicol}
 \usepackage{graphicx}
 \usepackage{float}
+\usepackage{setspace}
+\usepackage[nottoc,notlot,notlof]{tocbibind}
+
+\renewcommand*\contentsname{Tabla de Contenido}
 
 \setlength{\parskip}{1em}
 \bibliography{citation-13218946.bib}
@@ -18,7 +22,7 @@
 \bibliography{10.1007_F3-540-48017-X_15.bib}
 
 \title{Solucionando el problema de la mochila en el Modelo Sticker}
-\author{Ernesto Mancebo}
+\author{Ernesto Mancebo \\ Computación Bioinspirada, Universidad de Sevilla}
 \date{Febrero 2020}
 
 \usepackage{tikz}
@@ -26,23 +30,26 @@
 \begin{document}
     \maketitle
     \begin{abstract}
-        Este artículo es un estudio del paper \emph{Solving Knapsack Problems in a Sticker Based Model} de los profesores Mario P{\'e}rez-Jim{\'e}nez y Fernando Sancho-Caparrini\autocite{ref10.1007/3-540-48017-X_15}, el cual tiene como objetivo la resolución de los problema \emph{suma de subconjuntos} y \emph{porblema de la mochila}, para éste último en sus versiones acotada y la no acotada, utilizando como apoyo para la resolución de ambos problemas las subrutinas \emph{ordenado por cardinalidad} y \emph{llenado en paralelo}.
+        Esta memoria es un estudio del paper \emph{Solving Knapsack Problems in a Sticker Based Model} de los profesores Mario P{\'e}rez-Jim{\'e}nez y Fernando Sancho-Caparrini\autocite{ref10.1007/3-540-48017-X_15}, el cual tiene como objetivo la resolución de los problema \emph{suma de subconjuntos} y \emph{porblema de la mochila}, para éste último en sus versiones acotada y la no acotada, utilizando como apoyo para la resolución de ambos problemas las subrutinas \emph{ordenado por cardinalidad} y \emph{llenado en paralelo}.
     \end{abstract}
 
     \newpage
-    \tableofcontents
+
+    \begin{spacing}{0.01}
+        \tableofcontents
+    \end{spacing}
 
     \newpage
     \section{Introducción}
     La presente memoria expone y desgloza el Modelo Sticker, el cual fue propuesto por Sam Roweis en 1998. Asimismo, se utiliza el mencionado modelo para el diseño y elaboración de subrutinas las cuales brindarán apoyo para la resolución de los problemas \emph{suma de subconjuntos} y \emph{porblema de la mochila}, siéndo tales problemas del tipo \emph{NP-Completo}.
 
     \section{Modelo Sticker}
-    El Modelo Sticker es un modelo de computación inpirado en cadenas de ADN propuesto por Sam Roweis \autocite{sticker_model}, donde tal modelo se basa en procedimientos de filtrado, con memoria de acceso aleatorio y una nueva manera de codificar la información. En ese mismo orden, éste modelo se distingue de otros modelos computacionales por la última característica enlistada, la manera en que codifica la información.
+    El Modelo Sticker es un modelo de computación inpirado en cadenas de ADN propuesto por Sam Roweis \autocite{sticker_model}, donde tal modelo se basa en procedimientos de filtrado, con memoria de acceso aleatorio y una nueva manera de codificar la información; siéndo esta última característica la que le distingue de otros modelos computacionales.
 
     \subsection{Concepto de Cadena de Memoria}
     El eje central de este modelo son las cadenas de memoria, tales cadenas consisten en hebras simples de ADN del tipo $(n, k, m)$, tal que $n\geq k.m$, siendo $n$ la longitud de la cadena, $k$ las cantidad de subcadenas o regiones, y $m$ la longitud de cada subcadena.
 
-    Asimismo, un sticker es un elemento asociado a una región en la cadena de memoria, una vez asociado se dice que la región está complementada, transformando la cadena en una hebra doble parcial. En ese sentido, se dice que en cada región donde haya un sticker complementándole, esta región está \emph{activada}, mientras que la región donde se carezca de sticker se dice está \emph{desactivada}. Tal abstracción binaria también se puede expresar de modo \emph{0/1}.
+    Asimismo, un sticker es un elemento asociado a una región en la cadena de memoria, una vez asociado se dice que la región está complementada, transformando la cadena en una hebra doble parcial. En ese sentido, se dice que en cada región donde haya un sticker complementándole está \emph{activada}, mientras que la región donde se carezca de sticker se dice que está \emph{desactivada}. Tal abstracción binaria también se puede expresar de modo \emph{0/1}.
 
     \newpage
     \begin{figure}[h!]
@@ -108,7 +115,6 @@
         \end{algorithmic}
     \end{algorithm}
 
-    \newpage
     \subsection{Otras Notaciones}
     Para usos posteriores dentro de este informe, podemos notar el uso de \emph{Cardinal\_Sort} de modo:
     \begin{itemize}
@@ -116,6 +122,7 @@
         \item $Cardinal\_Sort(T_0, l, k)$ cuando $B=\{l, l+1,\dots,k\}$.
     \end{itemize}
 
+    \newpage
     \subsection{Proposiciones}
     \subsubsection{Proposición 1}
     $\forall{i}\;(1\leq{i}\leq{s}\rightarrow\forall{j}\leq{i}\;\forall{\sigma}(\sigma\in{T_{i,j}}\rightarrow|\sigma\cap{B_i}|=j))$.
@@ -159,7 +166,7 @@
         \item $B: \{1, 2, 4\}$
         \item $\mathcal{F}: \{\{2, 6\}, \{3\}, \{4\}, \{2, 4\}\}$
     \end{itemize}
-    Identificando los elementos que cumplen $B\cap D_j$ en $\mathcal{F}$ le resaltamos en rojo de modo que tenemos: $\{\{\textcolor{red}{2}, 6\}, \{3\}, \{\textcolor{red}{4}\}, \{\textcolor{red}{2, 4}\}\}$. Codificando $\mathcal{F}$ para llevarlo a un tubo tendíamos: 
+    Identificando los elementos que cumplen $B\cap D_j$ en $\mathcal{F}$ le resaltamos en rojo de modo que tenemos: $\{\{\textcolor{red}{2}, 6\}, \{3\}, \{\textcolor{red}{4}\}, \{\textcolor{red}{2}, \textcolor{red}{4}\}\}$. Codificando $\mathcal{F}$ para llevarlo a un tubo tendíamos: 
 
 
     $
@@ -205,7 +212,7 @@
     \end{multicols}
 
 
-    La subrutina opera sobre $T_0$ modificando sus elemento haciendo las moléculas del tubo de salida en $(F_\sigma)$ el peso con respecto a $f$ del subconjunto en $A$ codificado en $(A_\sigma)$, mientras que las zonas $(R_\sigma)$ y $(L_\sigma)$ no son modificadas, expresándose todo esto de forma:
+    La subrutina opera sobre $T_0$ modificando sus elementos, cuyas moléculas del tubo de salida codifica en $(F_\sigma)$ el peso con respecto a $f$ del subconjunto en $A$ codificado en $(A_\sigma)$, mientras que las zonas $(R_\sigma)$ y $(L_\sigma)$ no son modificadas, expresándose todo esto de forma:
 
         \begin{equation*}
             \begin{aligned}
@@ -308,7 +315,7 @@
         \end{itemize}
     \end{multicols}
 
-    Definido lo previo, tendremos las siguientes zonas delimitadas de la siguiente manera:
+    Definido lo previo, tendremos las zonas de $\sigma$ delimitadas de la siguiente manera:
     \begin{multicols}{2}
         \begin{itemize}
             \item $(A\sigma )=\sigma (1)\dots\sigma (4)$
@@ -318,7 +325,7 @@
         \end{itemize} 
     \end{multicols}
 
-    Para el tubo $T_0$ los valores que cumplen $B\cap{A}$ le resaltamos en rojo, teniendo $T_0: \{\{\textcolor{red}{1, 2}, 3\}, \{\textcolor{red}{1}\}, \{\textcolor{red}{2},3,\textcolor{red}{4}\}\}$, donde al codificar este con las delimitaciones previas, tenemos:
+    Para el tubo $T_0$ los valores que cumplen $B\cap{A}$ le resaltamos, teniendo $T_0: \{\{\textcolor{red}{1}, \textcolor{red}{2}, 3\}, \{\textcolor{red}{1}\}, \{\textcolor{red}{2},3,\textcolor{red}{4}\}\}$, donde al codificar este con las delimitaciones previas, tenemos:
 
 
         $
@@ -333,7 +340,7 @@
 Nótese que que la región $(A_\sigma)$ y $(L_\sigma)$ se han resaltado para su apreciación, mientras que lo restante se reserva para la región $(F_\sigma)$.
 
 
-Una vez odificado el tubo $T_0$, éste al ser procesado por $Parallel\_Fill$, tendremos como salida un tubo de la siguiente manera:
+Una vez codificado el tubo $T_0$, éste al ser procesado por $Parallel\_Fill$, tendremos como salida un tubo de la siguiente manera:
 
 
     $
@@ -353,7 +360,7 @@ Una vez odificado el tubo $T_0$, éste al ser procesado por $Parallel\_Fill$, te
     Definido una vez el problema, el paper bajo estudio presenta un diseño de un programa dentro del modelo sticker tal que resuelve el problema de la suma de subcojnuntos. El tubo de entrada $T_0$ conteniendo una librería de forma $(p+q_\omega, q)$. 
 
 
-    La primera fase, la fase de llenado, cada molécula $\sigma$ del tubo de entrada será llenado a fin de conseguir en los últimos componentes $q$ el peso de los subcojnuntos que codifica. Los tubos obtenidos luego serán ordenados de acuerdo a su cardinalidad. Por último, el tubo $k$-ésimo es leído, donde tal tubo $T_k$ representa el peso buscado.
+    La primera fase, la fase de llenado, cada molécula $\sigma$ del tubo de entrada será llenado a fin de conseguir en los últimos componentes $q$ el peso de los subcojnuntos que codifica. Los tubos obtenidos luego serán ordenados de acuerdo a su cardinalidad. Por último, el tubo $k$-ésimo es leído, donde tal tubo $T_k$ contiene aquellos complejos de memoria que codifican el peso buscado.
 
 
     \subsection{Algoritmo}
@@ -370,6 +377,7 @@ Una vez odificado el tubo $T_0$, éste al ser procesado por $Parallel\_Fill$, te
         \end{algorithmic}
     \end{algorithm}
 
+    \newpage
     \subsection{Diseño}
 
     La implementación del algoritmo expuesto considera el uso de $4+2q$ tubos $T$ y un coste de $2p+q+1+\frac{q.(q+3)}{2}$ operaciones o pasos. Asimismo, el diseño de éste programa no sólo soluciona un problema de desición pues a su vez retorna todas las soluciones posibles al problema propuesto.
@@ -378,12 +386,12 @@ Una vez odificado el tubo $T_0$, éste al ser procesado por $Parallel\_Fill$, te
     \subsubsection{Teorema 1 - Robustez}
     Si $T_{salida}\neq\emptyset$, entonces existe un $B\subseteq{A}$ tal que $\omega(B)=k$.
 
-    \emph{Prueba}. Tomando $\tau\in{T_{salida}}$, aplicando $(3)$ y la proposición 3, obtenemos $\sigma\in{T_0}$ verificamos que el resultado para $B_\sigma$.
+    \emph{Prueba}. Tomando $\tau\in{T_{salida}}$, aplicando $(3)$ y la proposición 3, obtenemos $\sigma\in{T_0}$ verificando este resultado para $B_\sigma$.
 
     \subsubsection{Teorema 2 - Completitud}
     Sea $\sigma\in{T_0}$ tal que $\omega(B_\sigma)=k$, entonces $T_{salida}\neq\emptyset$.
 
-    \emph{Prueba}. Sea $\sigma\in{T_0}$ tal qeu $\omega(B_\sigma)=k$, partiendo del corolario 3, luego de la ejecución de la subrutina de llenado, tenemos una molécula $\tau=\sigma^{p}\in{T_1}$ tal que $\omega(B_\sigma)=\sum^{p+q_\omega}_{i=p+1}\tau(i)$, entonces $\tau\in{T_{salida}}$.
+    \emph{Prueba}. Sea $\sigma\in{T_0}$ tal que $\omega(B_\sigma)=k$, partiendo del corolario 3, luego de la ejecución de la subrutina de llenado, tenemos una molécula $\tau=\sigma^{p}\in{T_1}$ tal que $\omega(B_\sigma)=\sum^{p+q_\omega}_{i=p+1}\tau(i)$, entonces $\tau\in{T_{salida}}$.
 
     \newpage
     \subsection{Traza}
@@ -430,7 +438,7 @@ Una vez odificado el tubo $T_0$, éste al ser procesado por $Parallel\_Fill$, te
     $ 
 
 
-    Finalmente, para un $k=4$, el tubo a buscar es el $T_4$, por lo que tendríamos como salida: $\textcolor{red}{1\,1\,1\,0}\textcolor{teal}{\,0}\,1\,1\,1\,1\,0\,0\,0\,0\,0\,0\,0\,0\,0\,0\,0\,0\,0\,0\,0\,0$; de modo que éste resultado da cumpliento  con los teoremas 1 y 2.
+    Finalmente, para un $k=4$, el tubo a buscar es el $T_4$, por lo que tendríamos como salida: $[\;\textcolor{red}{1\,1\,1\,0}\textcolor{teal}{\,0}\,1\,1\,1\,1\,0\,0\,0\,0\,0\,0\,0\,0\,0\,0\,0\,0\,0\,0\,0\,0\;]$; de modo que éste resultado da cumpliento  con los teoremas 1 y 2.
 
 
     \newpage
@@ -481,10 +489,10 @@ Una vez odificado el tubo $T_0$, éste al ser procesado por $Parallel\_Fill$, te
     \textbf{Problema:} bajo las mismas condiciones del problema anterior, determinar si un subconjunto $B\subseteq A$ tal que $\rho(B) =max\{\rho(C):C\subseteq A\;\land\;\omega(C) \leq k\}$.
 
 
-    Una solución molecular es obtenida a partir del problema la mochila acotado, mas un cambio en la fase final en donde se ordenan los tubos de salida con respecto a su valor y se elige sólamente el tubo con mayor valor.
+    Una solución molecular ya es obtenida a partir del problema la mochila acotado, mas es preciso realizar un cambio en la fase final, dígase ordernar los tubos con respecto a su valor y  elergir un tubo no vacío cuyo valor o índice sea el mayor de todos.
 
     \subsection{Algoritmo}
-    La nueva propuesta lleva a considerar un programa molecular similar al previo mas se ha de notar las variaciones en la salida del programa al retornar sólo el tubo con mayor valor.
+    La nueva propuesta lleva a considerar un programa molecular similar al previo mas se ha de notar las variaciones ya mencionadas para la parte final.
     \begin{algorithm}
         \begin{algorithmic}[1]
             \Procedure{$Unbounded\_Knapsack$}{$p,w,\rho,k,k'$}
@@ -512,13 +520,13 @@ Una vez odificado el tubo $T_0$, éste al ser procesado por $Parallel\_Fill$, te
     \subsection{Diseño}
     Este programa molecular utiliza la cantidad de $5+2.\max{\{q_\omega,q_\rho\}}$ tubos, y realiza una cantidad de $4p+k-k'+\frac{q_\omega.(q_\omega+5)+q_\rho.(q_\rho+9)}{2}$ operaciones; se ha de restaltar que el resultado de este programa, a diferencia de la versión acotada, es aquel tubo no vacío el cual contiene aquellos complejos de memoria que codifican el máximo valor posible cumpliendo la restrinción de peso, expresándose esto de forma: $\rho(B) = max\{\rho(C):C\subseteq A\;\land\;\omega(C) \leq k\}$.
 
-    \newpage
     \section{Conclusión}
-    En el trabajo presentado se expone y se detalla el \emph{Modelo Sticker}\autocite{sticker_model} propuesto por Sam Roweis, a la vez de que se plantea y diseña soluciones dentro de éste modelo para los problemas de la Suma de Subconjuntos y el problema de la Mochila, tanto para su versión Acotada y No Acotada, estos siendo problemas \emph{NP-Completo}. La solución para estos problemas se logró con el apoyo de la subrutina de Llenado y la subrutina de Ordenado por Cardinalidad, donde estas subrutinas son mostradas en acompañamiento con su verificación y comprobacíon, mas una traza que ilustra el comportamiento de las mencionadas subrutinas. Asimismo, se destaca que el tiempo requerido para la ejecución de estas soluciones es cuadrático pues varía respecto a la cantidad de tubos a utilizar. 
+    En el trabajo presentado se expone y se detalla el \emph{Modelo Sticker}\autocite{sticker_model} propuesto por Sam Roweis, a la vez de que se plantea y diseña soluciones dentro de éste modelo para los problemas de la Suma de Subconjuntos y el problema de la Mochila, tanto para su versión Acotada y No Acotada, estos siendo problemas \emph{NP-Completo}. La solución para estos problemas se logró con el apoyo de la subrutina de Llenado y la subrutina de Ordenado por Cardinalidad, donde estas subrutinas son mostradas en acompañamiento con su verificación y comprobacíon, mas una traza que ilustra el comportamiento de cada subrutinas. Asimismo, se destaca que el tiempo requerido para la ejecución de estas soluciones es cuadrático pues varía respecto a la cantidad de tubos a utilizar. 
 
 
-    Por otro lado, la manera en cómo la información es representada en este modelo de computación despierta la idea de utilizar tal modelo o posibles implementaciones afines con el propósito de codificar información, encriptación de la información y como una posible estructura de datos, siendo esta lista enumerativa mas no limitante para casos aplicativos.
+    Por otro lado, la manera en cómo la información es representada en este modelo de computación despierta la idea de utilizar tal modelo o posibles implementaciones afines con el propósito de codificar información, encriptación de la información y como una posible estructura de datos, siendo esta lista enumerativa mas no limitante de casos aplicativos.
 
     \newpage
-    \printbibliography
+    \addcontentsline{toc}{section}{Bibliografía}
+    \printbibliography[title={Bibliografía}]
 \end{document}
